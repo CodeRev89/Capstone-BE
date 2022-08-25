@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  login
+{% endblock title %}
+{% block content %} 
+<form action="{% url 'login-trainer' %}" method="POST"> 
+    {% csrf_token %}
+{{ form }} <input type="submit" value="login"> 
+ </form> 
+<br>  
+{%endblock content %}
+ 

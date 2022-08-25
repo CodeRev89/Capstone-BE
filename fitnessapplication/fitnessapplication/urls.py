@@ -16,12 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from fitness import views
+from fitness.views import Trainer_register, Trainer_login, Trainer_homepage
 # from .settings import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("trainee-register/", views.TraineeRegisterAPIView.as_view(),name="register-trainee"),
     path("trainee-login/", views.TraineeLoginAPIView.as_view(), name="login-trainee"),
+    path("trainer-register/", Trainer_register,name="register-trainer"),
+    path("trainer-login/", Trainer_login, name="login-trainer"),
+    path("home-page/", Trainer_homepage, name="profile-trainer"),
+    
+    
 ]
 
 

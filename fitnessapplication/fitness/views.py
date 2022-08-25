@@ -1,9 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.generics import CreateAPIView
 from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
+from .forms import TrainerRegister, TrainerLogin
+from django.contrib.auth import login, authenticate
+from .models import Trainer
+
+
+
 
 class TraineeRegisterAPIView(CreateAPIView):
     serializer_class=TraineeRegisterSerializer
@@ -18,4 +24,52 @@ class TraineeLoginAPIView(APIView):
             valid_data = serializer.data
             return Response(valid_data, status=HTTP_200_OK)
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
-# Create your views here.
+    
+    
+
+def Trainer_register(request):
+    form = TrainerRegister()
+    if request.method == "POST":
+        form = TrainerRegister(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+
+            user.set_password(user.password)
+            user.save()
+
+            login(request, user)
+            print("you are registerd")
+            # Where you want to go after a successful signup
+            return redirect("profile-trainer")
+    context = {
+        "form": form,
+    }
+    return render(request, "register.html", context)
+
+
+
+def Trainer_login(request):
+    form = TrainerLogin()
+    if request.method == "POST":
+        form = TrainerLogin(request.POST)
+        if form.is_valid():
+
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+
+            auth_user = authenticate(username=username, password=password)
+            if auth_user is not None:
+                login(request, auth_user)
+                print("logged in")
+                # Where you want to go after a successful login
+                return redirect("profile-trainer")
+
+    context = {
+        "form": form,
+    }
+    return render(request, "login.html", context)
+
+
+def Trainer_homepage(request):
+    # age=age.objects.all()
+    pass 

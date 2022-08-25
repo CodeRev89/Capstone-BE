@@ -9,8 +9,8 @@ class Trainee(User):
         return self.username
     
 class Trainer(User):
-    age=models.IntegerField()
-    experience=models.IntegerField()
+    age=models.IntegerField(blank=True, null=True)
+    experience=models.IntegerField(blank=True, null=True)
     specialty= models.CharField(max_length=250)
     def __str__(self):
         return self.username
