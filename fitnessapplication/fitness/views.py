@@ -102,6 +102,6 @@ def TrainerWorkout_update_view(request, workout_id):
     }
     return render(request, 'workout_update.html', context)
 
-def delete_view(request, workout_id):
+def TrainerWorkout_delete_view(request, workout_id):
     TrainerWorkoutForm.objects.get(id=workout_id).delete()
     return redirect("list-view")
