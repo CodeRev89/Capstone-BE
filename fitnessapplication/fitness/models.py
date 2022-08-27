@@ -16,4 +16,8 @@ class Trainer(User):
         return self.username
 
     
-    
+class TrainerWorkout(models.Model):
+    title= models.CharField(max_length=250)
+    short_description= models.CharField(max_length=500)
+    workout_type= models.CharField(max_length=250)
+    image=models.ImageField()

@@ -4,7 +4,7 @@ from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-from .forms import TrainerRegister, TrainerLogin
+from .forms import TrainerRegister, TrainerLogin, TrainerWorkoutForm
 from django.contrib.auth import login, authenticate
 from .models import Trainer
 
@@ -73,3 +73,35 @@ def Trainer_login(request):
 def Trainer_homepage(request):
     # age=age.objects.all()
     pass 
+
+
+def TrainerWorkout_create_view(request):
+    form = TrainerWorkoutForm()
+    if request.method == "POST":
+        form = TrainerWorkoutCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("list-view")
+    context = {
+        "form": form,
+    }
+    return render(request, 'create_page.html', context)
+
+
+def TrainerWorkout_update_view(request, workout_id):
+    obj = TrainerWorkoutForm.objects.get(id=workout_id)
+    form = TrainerWorkoutForm(instance=workout)
+    if request.method == "POST":
+        form = TrainerWorkoutForm(request.POST, instance=workout)
+        if form.is_valid():
+            form.save()
+            return redirect("list-page")
+    context = {
+        "workout" : workout,
+        "form": form,
+    }
+    return render(request, 'workout_update.html', context)
+
+def delete_view(request, workout_id):
+    TrainerWorkoutForm.objects.get(id=workout_id).delete()
+    return redirect("list-view")
