@@ -40,8 +40,8 @@ class Exercise(models.Model):
     name= models.CharField(max_length=250)
     short_description= models.CharField(max_length=500)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True,related_name="exercises")  
-    image=models.ImageField()
-    vedio = models.URLField(max_length=250)
+    image=models.ImageField(upload_to="exercises/",default="")
+    video = models.URLField(max_length=250)
 
     def __str__(self):
         return self.name
@@ -53,9 +53,9 @@ class ExerciseItem(models.Model):
     def __str__(self):
         return self.exercise.name
 
-class Step(models.Model):
-    reps =models.IntegerField(blank=False)  
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True,related_name="steps")  
+class SetItem(models.Model):
+    rep =models.IntegerField(blank=False)  
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True,related_name="sets")  
 
     def __str__(self):
         return self.reps 

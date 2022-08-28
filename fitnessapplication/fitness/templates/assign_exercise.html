@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+  New Exercise
+{% endblock title %}
+{% block content %} 
+<form action="{% url 'add-exercise' %}" method="POST" enctype="multipart/form-data"> 
+    {% csrf_token %}
+{{ form|crispy  }} 
+<div style="width:100%" class="ms-5">
+    <h4>Sets</h4>
+    {{setsForm.management_form}}
+    <div id='set-form-list'>
+        {% for form in set_form %}
+            <div class='set-form'>
+
+            </div>
+
+        {% endfor %}
+    </div>
+    <div id='empty-set-form' class='hidden'> 
+        {% comment %} <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button> {% endcomment %}
+         {{setsForm.empty_form|crispy}}
+    </div>
+    <button id="add-more-set" type="button" class="btn outline-btn mt-2 ">Add set</button>
+</div>
+<input type="submit" value="Add"> 
+ </form> 
+<br>  
+<script>
+    const addMoreSetBtn = document.getElementById('add-more-set')
+    
+    const totalNewSetsForms = document.getElementById('id_sets-TOTAL_FORMS')
+    {% comment %} let ingredient_counter = 1 {% endcomment %}
+
+    addMoreSetBtn.addEventListener('click',add_new_set)
+    
+    function add_new_set(event) {
+        console.log("hi")
+        const currentSetForms = document.getElementsByClassName('set-form')
+        const currentFormCount = currentSetForms.length // + 1
+        const formCopyTarget = document.getElementById('set-form-list')
+        const copyEmptyFormEl = document.getElementById('empty-set-form').cloneNode(true)
+        copyEmptyFormEl.setAttribute('class', 'set-form card p-3')
+        copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
+        
+        
+
+       // const counterDiv = document.getElementById('ingredient_counter').cloneNode(true)
+       // counterDiv.setAttribute('class', 'card-header' )
+        //counterDiv.innerHTML= `<h5 class="card-title"> Set ${currentFormCount + 1 }</h5>`
+       // copyEmptyFormEl.prepend(counterDiv)
+
+        const regex = new RegExp('__prefix__', 'g')
+        copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
+        totalNewSetsForms.setAttribute('value', currentFormCount + 1)
+        // now add new empty form element to our html form
+        formCopyTarget.append(copyEmptyFormEl)
+    }
+    
+
+
+</script>
+{%endblock content %}
+ 

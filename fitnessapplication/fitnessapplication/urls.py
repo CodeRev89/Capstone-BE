@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from fitness import views
-# from fitness.views import Trainer_register, Trainer_login, Trainer_homepage
-# from .settings import settings
+from fitness import webviews as web
+from django.conf.urls.static import static
+
+from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,9 +29,16 @@ urlpatterns = [
     # path("trainer-login/", Trainer_login, name="login-trainer"),
     # path("home-page/", Trainer_homepage, name="profile-trainer"),
     
-    
+    ### WEB ###
+    path("trainer-register/", web.registration_view,name="register-trainer"),
+    path("trainer-login/", web.user_login,name="login-trainer"),
+    path("", web.home, name="home"),
+    path('logout/', web.logout_view, name="logout"),
+    path('add-exercise/', web.new_exercise, name="add-exercise"),
+    # path("trainee-login/", views.TraineeLoginAPIView.as_view(), name="login-trainee"),
 ]
 
 
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
