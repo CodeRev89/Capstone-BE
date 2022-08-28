@@ -21,8 +21,8 @@ from fitness import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("trainee-register/", views.TraineeRegisterAPIView.as_view(),name="register-trainee"),
-    # path("trainee-login/", views.TraineeLoginAPIView.as_view(), name="login-trainee"),
+    path("trainee-register/", views.TraineeRegisterAPIView.as_view(),name="register-trainee"),
+    path("trainee-login/", views.TraineeLoginAPIView.as_view(), name="login-trainee"),
     # path("trainer-register/", Trainer_register,name="register-trainer"),
     # path("trainer-login/", Trainer_login, name="login-trainer"),
     # path("home-page/", Trainer_homepage, name="profile-trainer"),
