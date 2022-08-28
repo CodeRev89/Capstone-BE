@@ -1,18 +1,23 @@
 from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import User
+
 # Create your models here.
 
 class Trainee(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
-    age=models.IntegerField()
-    height=models.IntegerField()
-    weight=models.IntegerField()
-    blood_type= models.CharField(max_length=250)
-    # image= models.ImageField()
+    age=models.IntegerField(blank=True, null=True)
+    height=models.IntegerField(null=True)
+    weight=models.IntegerField(null=True)
+    blood_type= models.CharField(max_length=250, null=True)
+    
+
+    
     def __str__(self):
         return self.user.username
+    
+
     
 class Trainer(models.Model):
     user = models.OneToOneField(
