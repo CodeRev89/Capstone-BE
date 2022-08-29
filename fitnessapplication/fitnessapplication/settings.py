@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-y0i7_4e7n_ncd+rtg2_fba=ynj_4uhk@w1-v-x5-@f@ld+dx63
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["10.0.2.2"]
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "crispy_forms",
 ]
+
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
@@ -60,6 +61,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
 }
