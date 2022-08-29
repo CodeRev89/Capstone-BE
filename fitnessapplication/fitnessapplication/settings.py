@@ -60,9 +60,8 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
-
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=12),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
 }
 
 ROOT_URLCONF = "fitnessapplication.urls"

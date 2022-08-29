@@ -1,29 +1,30 @@
-from django.shortcuts import render, redirect
-from rest_framework.generics import CreateAPIView
-from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-# from .forms import TrainerRegister, TrainerLogin, TrainerWorkoutForm
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from rest_framework.generics import CreateAPIView
+from rest_framework_simplejwt.views import TokenObtainPairView
+from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .models import Trainer
+from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer
 
 
-
+class UserTokenApiView(TokenObtainPairView):
+    serializer_class= UserTokenSerializer
 
 class TraineeRegisterAPIView(CreateAPIView):
     serializer_class=TraineeRegisterSerializer
 
-class TraineeLoginAPIView(APIView):
-    serializer_class = TraineeLoginSerializer
+# class TraineeLoginAPIView(APIView):
+#     serializer_class = TraineeLoginSerializer
 
-    def post(self, request):
-        my_data = request.data
-        serializer = TraineeLoginSerializer(data=my_data)
-        if serializer.is_valid(raise_exception=True):
-            valid_data = serializer.data
-            return Response(valid_data, status=HTTP_200_OK)
-        return Response(serializer.errors, HTTP_400_BAD_REQUEST)
+#     def post(self, request):
+#         my_data = request.data
+#         serializer = TraineeLoginSerializer(data=my_data)
+#         if serializer.is_valid(raise_exception=True):
+#             valid_data = serializer.data
+#             return Response(valid_data, status=HTTP_200_OK)
+#         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
     
     
 
