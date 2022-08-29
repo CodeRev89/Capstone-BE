@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
-from .models import Trainee
+from .models import Trainee, Trainer
 
 
 class UserTokenSerializer(TokenObtainPairSerializer):
@@ -55,3 +55,27 @@ class TraineeLoginSerializer(serializers.Serializer):
 
         data["access"] = token
         return data
+
+
+class TrainerListSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Trainer
+        fields = ['user','age', 'experience', 'specialty', ]
+        
+  
+    
+class TrainerDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trainer
+        fields = ['user', 'age', 'experience', 'specialty',]
+        
+class TrainerSubscriptionCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModelName
+        fields = ['field_1', 'field_2', 'field_3', 'field_4',]
+        
+class TrainerSubscriptionListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModelName
+        fields = ['field_1', 'field_2', 'field_3',]

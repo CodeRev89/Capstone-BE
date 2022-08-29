@@ -21,7 +21,7 @@ class Trainee(models.Model):
     
 class Trainer(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
+        User, on_delete=models.CASCADE, primary_key=True) # primary_key = true replaces the field id
     age=models.IntegerField(blank=True, null=True)
     experience=models.IntegerField(blank=True, null=True)
     specialty= models.CharField(max_length=250)
