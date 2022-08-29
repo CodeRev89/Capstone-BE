@@ -18,13 +18,15 @@ from django.urls import path
 from fitness import views
 from fitness import webviews as web
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("trainee-register/", views.TraineeRegisterAPIView.as_view(),name="register-trainee"),
-    path("trainee-login/", views.TraineeLoginAPIView.as_view(), name="login-trainee"),
+    path("trainee-login/", views.UserTokenApiView.as_view(), name="login-trainee"),
+    path('token-refresh/', TokenRefreshView.as_view(), name='token-refresh'),
     # path("trainer-register/", Trainer_register,name="register-trainer"),
     # path("trainer-login/", Trainer_login, name="login-trainer"),
     # path("home-page/", Trainer_homepage, name="profile-trainer"),
