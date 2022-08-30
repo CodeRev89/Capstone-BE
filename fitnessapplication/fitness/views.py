@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .models import Trainer
-from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer, TrainerDetailSerializer, TrainerListSerializer, TrainerSubscriptionListSerializer,TrainerSubscriptionCreateSerializer
+from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer, TrainerDetailSerializer, TrainerListSerializer #TrainerSubscriptionListSerializer,TrainerSubscriptionCreateSerializer
 
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 
@@ -31,31 +31,31 @@ class TrainerDetailView(RetrieveAPIView):
     lookup_url_kwarg = 'object_id'
     
     
-class TrainerSubscriptionListView(ListAPIView):
-    queryset = ModelName.objects.all()
-    serializer_class = TrainerSubscriptionListSerializer
-    permission_classes = [AllowAny]
+# class TrainerSubscriptionListView(ListAPIView):
+#     queryset = ModelName.objects.all()
+#     serializer_class = TrainerSubscriptionListSerializer
+#     permission_classes = [AllowAny]
 
     
-class TrainerSubsciptionCreateView(CreateAPIView):
-    serializer_class = TrainerSubscriptionCreateSerializer
-    permission_classes = [IsAuthenticated]
+# class TrainerSubsciptionCreateView(CreateAPIView):
+#     serializer_class = TrainerSubscriptionCreateSerializer
+#     permission_classes = [IsAuthenticated]
 
     
-class TrainerSubsciptionUpdateView(UpdateAPIView):
-    queryset = ModelName.objects.all()
-    serializer_class = TrainerSubscriptionCreateSerializer
-    lookup_field = 'id'
-    lookup_url_kwarg = 'object_id'
-    permission_classes = [IsAuthenticated]
+# class TrainerSubsciptionUpdateView(UpdateAPIView):
+#     queryset = ModelName.objects.all()
+#     serializer_class = TrainerSubscriptionCreateSerializer
+#     lookup_field = 'id'
+#     lookup_url_kwarg = 'object_id'
+#     permission_classes = [IsAuthenticated]
 
     
-class TrainerSubscriptionDeleteView(DestroyAPIView):
-    queryset = ModelName.objects.all()
-    serializer_class = TrainerListSerializer
-    lookup_field = 'id'
-    lookup_url_kwarg = 'object_id'
-    permission_classes = [IsAuthenticated]
+# class TrainerSubscriptionDeleteView(DestroyAPIView):
+#     queryset = ModelName.objects.all()
+#     serializer_class = TrainerListSerializer
+#     lookup_field = 'id'
+#     lookup_url_kwarg = 'object_id'
+#     permission_classes = [IsAuthenticated]
 
 
 

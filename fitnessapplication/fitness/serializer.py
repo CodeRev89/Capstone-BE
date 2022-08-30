@@ -70,12 +70,12 @@ class TrainerDetailSerializer(serializers.ModelSerializer):
         model = Trainer
         fields = ['user', 'age', 'experience', 'specialty',]
         
-class TrainerSubscriptionCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ModelName
-        fields = ['field_1', 'field_2', 'field_3', 'field_4',]
+# class TrainerSubscriptionCreateSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ModelName
+#         fields = ['field_1', 'field_2', 'field_3', 'field_4',]
         
-class TrainerSubscriptionListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ModelName
-        fields = ['field_1', 'field_2', 'field_3',]
+# class TrainerSubscriptionListSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ModelName
+#         fields = ['field_1', 'field_2', 'field_3',]
