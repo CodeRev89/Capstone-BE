@@ -41,7 +41,7 @@ urlpatterns = [
     path("", web.home, name="home"),
     path('logout/', web.logout_view, name="logout"),
     path('add-exercise/', web.new_exercise, name="add-exercise"),
-    # path("trainee-login/", views.TraineeLoginAPIView.as_view(), name="login-trainee"),
+    path("assign-exercise/", web.assign_exercise, name="assign-exercise"),
 ]
 
 

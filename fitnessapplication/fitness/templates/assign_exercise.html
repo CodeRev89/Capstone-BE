@@ -5,26 +5,10 @@
   New Exercise
 {% endblock title %}
 {% block content %} 
-<form action="{% url 'add-exercise' %}" method="POST" enctype="multipart/form-data"> 
+<form action="{% url 'assign-exercise' %}" method="POST" enctype="multipart/form-data"> 
     {% csrf_token %}
 {{ form|crispy  }} 
-<div style="width:100%" class="ms-5">
-    <h4>Sets</h4>
-    {{setsForm.management_form}}
-    <div id='set-form-list'>
-        {% for form in set_form %}
-            <div class='set-form'>
 
-            </div>
-
-        {% endfor %}
-    </div>
-    <div id='empty-set-form' class='hidden'> 
-        {% comment %} <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button> {% endcomment %}
-         {{setsForm.empty_form|crispy}}
-    </div>
-    <button id="add-more-set" type="button" class="btn outline-btn mt-2 ">Add set</button>
-</div>
 <input type="submit" value="Add"> 
  </form> 
 <br>  
