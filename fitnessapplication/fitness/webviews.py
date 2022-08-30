@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
-from .models import Exercise, Trainer
+from .models import Exercise, Trainer, Subscription
 from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm
 from django.contrib.auth import login, authenticate,logout
 from django.forms.models import inlineformset_factory
@@ -103,3 +103,35 @@ def assign_exercise(request):
         # "setsForm":formSet
     }
     return render(request, "assign_exercise.html", context)
+
+def trainer_subcription_create_view(request):
+    form = TrainerSubscriptionForm()
+    if request.method == "POST":
+        form = TrainerSubscriptionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("list-view")
+    context = {
+        "form": form,
+    }
+    return render(request, 'create_page.html', context)
+
+
+def trainer_subscription_update_view(request, subscription_id):
+    subscription = TrainerSubscriptionForm.objects.get(id=subscription_id)
+    form = TrainerSubscriptionForm(instance=subscription)
+    if request.method == "POST":
+        form = TrainerSubscriptionForm(request.POST, instance=subscription)
+        if form.is_valid():
+            form.save()
+            return redirect("list-page")
+    context = {
+        "subscription": subscription,
+        "form": form,
+    }
+    return render(request, 'object_update.html', context)
+
+
+def trainer_subscription_delete_view(request, subcription_id):
+    Subscription.objects.get(id=subcription_id).delete()
+    return redirect("list-view")

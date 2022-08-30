@@ -62,6 +62,7 @@ class ExerciseItem(models.Model):
         return self.exercise.name
 
 class Subscription(models.Model):
+    
     name =models.CharField(max_length=250) 
     price =models.IntegerField(blank=False) 
     describtion =models.CharField(max_length=250)

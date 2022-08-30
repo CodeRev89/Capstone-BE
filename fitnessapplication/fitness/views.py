@@ -1,12 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .models import Trainer
-from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer, TrainerDetailSerializer, TrainerListSerializer, TrainerSubscriptionListSerializer,TrainerSubscriptionCreateSerializer
+from .models import Trainer, Subscription, ExerciseItem
+from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer,ExerciseItemCreateSerializer, TrainerDetailSerializer, TrainerListSerializer, TrainerSubscriptionListSerializer
 
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 
@@ -17,6 +17,12 @@ class UserTokenApiView(TokenObtainPairView):
 
 class TraineeRegisterAPIView(CreateAPIView):
     serializer_class=TraineeRegisterSerializer
+    
+class ExerciseItemUpdateView(UpdateAPIView):
+    queryset = ExerciseItem.objects.all()
+    serializer_class = ExerciseItemCreateSerializer
+    lookup_field = 'id'
+    lookup_url_kwarg = 'object_id'
 
 
 class TrainerListView(ListAPIView):
@@ -32,30 +38,12 @@ class TrainerDetailView(RetrieveAPIView):
     
     
 class TrainerSubscriptionListView(ListAPIView):
-    queryset = ModelName.objects.all()
+    queryset = Subscription.objects.all()
     serializer_class = TrainerSubscriptionListSerializer
     permission_classes = [AllowAny]
 
     
-class TrainerSubsciptionCreateView(CreateAPIView):
-    serializer_class = TrainerSubscriptionCreateSerializer
-    permission_classes = [IsAuthenticated]
 
-    
-class TrainerSubsciptionUpdateView(UpdateAPIView):
-    queryset = ModelName.objects.all()
-    serializer_class = TrainerSubscriptionCreateSerializer
-    lookup_field = 'id'
-    lookup_url_kwarg = 'object_id'
-    permission_classes = [IsAuthenticated]
-
-    
-class TrainerSubscriptionDeleteView(DestroyAPIView):
-    queryset = ModelName.objects.all()
-    serializer_class = TrainerListSerializer
-    lookup_field = 'id'
-    lookup_url_kwarg = 'object_id'
-    permission_classes = [IsAuthenticated]
 
 
 

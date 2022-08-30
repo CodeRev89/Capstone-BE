@@ -2,7 +2,7 @@ from django import forms
 # from .models import Trainer, TrainerWorkout
 from django.contrib.auth.models import User
 
-from .models import Exercise, ExerciseItem
+from .models import Exercise, ExerciseItem, Subscription
 
 
 
@@ -33,3 +33,7 @@ class ExerciseItemForm(forms.ModelForm):
         model = ExerciseItem
         fields = ["exercise", "reps", "sets", "trainee", "time"]
     
+class TrainerSubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Subscription
+        fields = ["name", "price", "describtion", "trainer", "duration"]
