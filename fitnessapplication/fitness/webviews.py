@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
-from .models import Exercise, Trainer
+from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
 from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm
 from django.contrib.auth import login, authenticate,logout
 from django.forms.models import inlineformset_factory
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 
 
@@ -65,6 +67,26 @@ def logout_view(request):
 
     ## Exercise
 
+# def trainer_exercises_list(request,trainerId):
+#     trainer = Trainer.objects.get(user__id = trainerId)
+#     exercises = Exercise.objects.filter(trainer=trainer).order_by("-id")
+#     categories = request.GET.getlist("category[]")
+
+#     if len(categories) > 0:
+#         exercises = exercises.filter(category__id__in=categories)
+   
+#     filter_template = render_to_string('ajax/trainer_exercise.html', {"data": exercises})
+#     return JsonResponse({"data": filter_template})
+
+def trainer_exercises_list(request,trainerId):
+    trainer = Trainer.objects.get(user__id = trainerId)
+    exercises: list[Exercise] = list(Exercise.objects.filter(trainer = trainer))       
+
+    context = {
+        "exercises": exercises,
+    }
+    return render(request, "trainer_exercise.html", context)
+
 def new_exercise(request):
     form = ExerciseForm()         
     if request.method == "POST":
@@ -81,25 +103,45 @@ def new_exercise(request):
     }
     return render(request, "add_exercise.html", context)
 
-def assign_exercise(request):
-    form = ExerciseItemForm()    
-    # formSet = setsFormset()           
+def assign_exercise(request,traineeId):
+    trainee = Trainee.objects.get(user__id=traineeId)
+    setsFormset = inlineformset_factory(model= ExerciseItem, parent_model=Trainee, form=ExerciseItemForm,extra=0)
+    forms = setsFormset()    
     if request.method == "POST":
-        form = ExerciseItemForm(request.POST,request.FILES)
-        # formSet = setsFormset(request.POST)           
-        if all([form.is_valid()]):
-            exercise =form.save()
-            # exercise.trainee = request.trainee
-            exercise.save()
-            # for form in formSet:
-            #     child = form.save(commit=False)
-            #     child.exercise = exercise
-            #     child.save()
+        forms = setsFormset(request.POST)
+        if forms.is_valid():
+            for form in forms:
+                child = form.save(commit=False)
+                child.trainee = trainee
+                child.save()
                 # Where you want to go after a successful login
             return redirect("home")
 
     context = {
-        "form": form,
-        # "setsForm":formSet
+        "forms": forms,
+        "trainee":trainee
     }
     return render(request, "assign_exercise.html", context)
+
+
+# Subscription
+def trainer_subs_list(request,trainerId):
+    trainer = Trainer.objects.get(user__id = trainerId)
+    subs: list[Subscription] = list(Subscription.objects.filter(trainer = trainer))       
+
+    context = {
+        "subs": subs,
+    }
+    return render(request, "trainer_subscriptions.html", context)
+
+# Subscripers 
+def subsripres_list(request,trainerId):
+    trainer = Trainer.objects.get(user__id = trainerId)
+
+    subsItems: list[SubscriptionItem] = list(SubscriptionItem.objects.filter(plan__trainer = trainer))       
+    # subsribers: list[Trainee] = list(Trainee.objects.filter(trainer = trainer))       
+
+    context = {
+        "subsItems": subsItems,
+    }
+    return render(request, "subscribers.html", context)

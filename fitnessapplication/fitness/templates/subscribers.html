@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+  Subscriptions
+{% endblock title %}
+{% block content %} 
+{% for subsItem in subsItems%}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <p class="card-text">{{subsItem.trainee.user.username}}</p>
+      <h5 class="card-title">{{subsItem.plan.name}}</h5>
+      <p class="card-text">{{subsItem.plan.name}}</p>
+      <p class="card-text">{{subsItem.end_date}}</p>
+      <p class="card-text">{{subsItem.active}}</p>
+      <p class="card-text">{{subsItem.payment_status}}</p>
+      <p class="card-text">{{subsItem.auto_renew}}</p>
+    </div>
+  </div>
+{%endfor%}
+
+{%endblock content %}
+ 

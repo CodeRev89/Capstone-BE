@@ -5,23 +5,63 @@
   New Exercise
 {% endblock title %}
 {% block content %} 
-<form action="{% url 'assign-exercise' %}" method="POST" enctype="multipart/form-data"> 
+<style>
+    .ingredient-form{
+        border-bottom:1px solid #c4c4c4;
+        margin-bottom:15px
+    }
+    .step-form{
+        border-bottom:1px solid #c4c4c4;
+        margin-bottom:15px
+    }
+    .hidden {
+        display: none
+    }
+    .outline-btn {
+        color: #645cff;
+        background: white;
+        border-radius: 5px;
+        border:1px solid #645cff;
+      }
+      .outline-btn:hover{
+        color: white;
+      }
+      .form-check{
+          display:none
+      }
+    
+</style>
+<form action="{% url 'assign-exercise' trainee.user.id  %}" method="POST" enctype="multipart/form-data"> 
     {% csrf_token %}
-{{ form|crispy  }} 
+{% comment %} {{ forms|crispy  }}  {% endcomment %}
+<div style="width:100%" class="ms-5">
+    <p>{{traine.user.username}}</p>
+    <h4>Exercises</h4>
+    {{forms.management_form}}
+    <div id='set-form-list'>
+        {% for form in forms %}
+            <div class='set-form'>
 
+            </div>
+
+        {% endfor %}
+    </div>
+    <div id='empty-set-form' class='hidden'> 
+        {% comment %} <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button> {% endcomment %}
+         {{forms.empty_form|crispy}}
+    </div>
+    <button id="add-more-set" type="button" class="btn outline-btn mt-2 ">Add Exercise</button>
+</div>
 <input type="submit" value="Add"> 
  </form> 
 <br>  
 <script>
     const addMoreSetBtn = document.getElementById('add-more-set')
-    
-    const totalNewSetsForms = document.getElementById('id_sets-TOTAL_FORMS')
+    const totalNewSetsForms = document.getElementById('id_exercises-TOTAL_FORMS')
     {% comment %} let ingredient_counter = 1 {% endcomment %}
-
     addMoreSetBtn.addEventListener('click',add_new_set)
-    
+    add_new_set()
     function add_new_set(event) {
-        console.log("hi")
         const currentSetForms = document.getElementsByClassName('set-form')
         const currentFormCount = currentSetForms.length // + 1
         const formCopyTarget = document.getElementById('set-form-list')

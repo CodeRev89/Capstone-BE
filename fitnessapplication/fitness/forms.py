@@ -31,5 +31,5 @@ class ExerciseForm(forms.ModelForm):
 class ExerciseItemForm(forms.ModelForm):
     class Meta:
         model = ExerciseItem
-        fields = ["exercise", "reps", "sets", "trainee", "time"]
+        fields = ["exercise", "reps", "sets", "time"]
     

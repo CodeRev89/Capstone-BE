@@ -41,7 +41,10 @@ urlpatterns = [
     path("", web.home, name="home"),
     path('logout/', web.logout_view, name="logout"),
     path('add-exercise/', web.new_exercise, name="add-exercise"),
-    path("assign-exercise/", web.assign_exercise, name="assign-exercise"),
+    path("assign-exercise/<int:traineeId>", web.assign_exercise, name="assign-exercise"),
+    path("exercises/<int:trainerId>", web.trainer_exercises_list, name="exercises"),
+    path("subscriptions/<int:trainerId>", web.trainer_subs_list, name="subscriptions"),
+    path("subscribers/<int:trainerId>", web.subsripres_list, name="subscribers"),
 ]
 
 
