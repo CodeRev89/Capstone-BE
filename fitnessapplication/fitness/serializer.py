@@ -1,3 +1,4 @@
+from dataclasses import fields
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -57,8 +58,15 @@ class TraineeLoginSerializer(serializers.Serializer):
         return data
 
 
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'password']
+        
+        
 class TrainerListSerializer(serializers.ModelSerializer):
-    
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Trainer
         fields = ['user','age', 'experience', 'specialty', ]
