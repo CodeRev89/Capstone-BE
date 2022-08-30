@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+ Exercises
+{% endblock title %}
+{% block content %} 
+{% for exercise in exercises%}
+<div class="card" style="width: 18rem;">
+    <img src={{exercise.image.url}} class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{exercise.name}}</h5>
+      <p class="card-text">{{exercise.short_description}}</p>
+      <a href="#" class="btn btn-primary">Edit</a>
+    </div>
+  </div>
+{%endfor%}
+
+{%endblock content %}
+ 

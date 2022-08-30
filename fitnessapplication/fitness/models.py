@@ -19,7 +19,7 @@ class Trainee(models.Model):
 
     
     def __str__(self):
-        return self.user.username
+        return F'{self.user.id} - {self.user.username}'
     
 
     
@@ -31,7 +31,7 @@ class Trainer(models.Model):
     specialty= models.CharField(max_length=250)
     
     def __str__(self):
-        return self.user.username
+        return F'{self.user.id} - {self.user.username}'
 
 class Category(models.Model):
     name= models.CharField(max_length=250)
@@ -73,7 +73,7 @@ class Subscription(models.Model):
 
 class SubscriptionItem(models.Model):
     plan = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True,related_name="items")  
-    trainee = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="trainees")  
+    trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE, null=True,related_name="trainees")  
     start_date = models.DateField(auto_now=True) 
     end_date = models.DateField()
     active = models.BooleanField()
