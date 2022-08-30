@@ -2,7 +2,7 @@ from django import forms
 # from .models import Trainer, TrainerWorkout
 from django.contrib.auth.models import User
 
-from .models import Exercise, SetItem
+from .models import Exercise, ExerciseItem
 
 
 
@@ -27,8 +27,9 @@ class ExerciseForm(forms.ModelForm):
     class Meta:
         model = Exercise
         fields = ["name", "short_description", "category", "image","video"]
-    
-class SetForm(forms.ModelForm):
+
+class ExerciseItemForm(forms.ModelForm):
     class Meta:
-        model = SetItem
-        fields = ["rep"]
+        model = ExerciseItem
+        fields = ["exercise", "reps", "sets", "trainee", "time"]
+    

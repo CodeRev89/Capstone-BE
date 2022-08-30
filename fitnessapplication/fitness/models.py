@@ -1,3 +1,4 @@
+from datetime import datetime
 from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import AbstractUser,User
@@ -24,7 +25,7 @@ class Trainee(models.Model):
     
 class Trainer(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
+        User, on_delete=models.CASCADE, primary_key=True) # primary_key = true replaces the field id
     age=models.IntegerField(blank=True, null=True)
     experience=models.IntegerField(blank=True, null=True)
     specialty= models.CharField(max_length=250)
@@ -52,16 +53,13 @@ class Exercise(models.Model):
 class ExerciseItem(models.Model):
     trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE, null=True,related_name="exercises")   
     exercise= models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True,related_name="items") 
+    reps =models.IntegerField(blank=False, default=5)  
+    sets =models.IntegerField(blank=False,default=5)  
+    time =models.TimeField(default="10:00") 
+    done =  models.BooleanField(default=False)
 
     def __str__(self):
         return self.exercise.name
-
-class SetItem(models.Model):
-    rep =models.IntegerField(blank=False)  
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True,related_name="sets")  
-
-    def __str__(self):
-        return self.reps 
 
 class Subscription(models.Model):
     name =models.CharField(max_length=250) 

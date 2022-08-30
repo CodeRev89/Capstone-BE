@@ -19,6 +19,7 @@ from fitness import views
 from fitness import webviews as web
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenRefreshView
+from fitness.views import TrainerListView, TrainerDetailView,  TrainerSubscriptionListView
 
 from django.conf import settings
 
@@ -27,6 +28,9 @@ urlpatterns = [
     path("trainee-register/", views.TraineeRegisterAPIView.as_view(),name="register-trainee"),
     path("trainee-login/", views.UserTokenApiView.as_view(), name="login-trainee"),
     path('token-refresh/', TokenRefreshView.as_view(), name='token-refresh'),
+    path('trainer-list/', TrainerListView.as_view(), name='trainer-list'),
+    path('trainer-detail/<int:object_id>/', TrainerDetailView.as_view(), name='trainer-detail'),
+     path('trainer-subcription-list/', TrainerSubscriptionListView.as_view(), name='subs-list'),
     # path("trainer-register/", Trainer_register,name="register-trainer"),
     # path("trainer-login/", Trainer_login, name="login-trainer"),
     # path("home-page/", Trainer_homepage, name="profile-trainer"),
@@ -37,7 +41,7 @@ urlpatterns = [
     path("", web.home, name="home"),
     path('logout/', web.logout_view, name="logout"),
     path('add-exercise/', web.new_exercise, name="add-exercise"),
-    # path("trainee-login/", views.TraineeLoginAPIView.as_view(), name="login-trainee"),
+    path("assign-exercise/", web.assign_exercise, name="assign-exercise"),
 ]
 
 
