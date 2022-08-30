@@ -1,8 +1,11 @@
 from unicodedata import category
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser,User
+
 
 # Create your models here.
+# class User(AbstractUser):
+#     is_trainer = models.BooleanField(default=False)
 
 class Trainee(models.Model):
     user = models.OneToOneField(
@@ -59,6 +62,28 @@ class SetItem(models.Model):
 
     def __str__(self):
         return self.reps 
+
+class Subscription(models.Model):
+    name =models.CharField(max_length=250) 
+    price =models.IntegerField(blank=False) 
+    describtion =models.CharField(max_length=250)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="subs")  
+    duration = models.IntegerField(blank=False) 
+
+    def __str__(self):
+        return self.name 
+
+class SubscriptionItem(models.Model):
+    plan = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True,related_name="items")  
+    trainee = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="trainees")  
+    start_date = models.DateField(auto_now=True) 
+    end_date = models.DateField()
+    active = models.BooleanField()
+    payment_status = models.BooleanField()
+    auto_renew = models.BooleanField()
+
+    def __str__(self):
+        return f'{self.trainee.user.username} - {self.plan.name} '
 
 
 
