@@ -29,6 +29,11 @@ class TraineeRegisterSerializer(serializers.ModelSerializer):
         token = UserTokenSerializer.get_token(new_user)
         validated_data['refresh'] = str(token)
         validated_data['access'] = str(token.access_token)
+
+        Trainee.objects.create(
+            user = new_user,
+            # etc... 
+        )
         return validated_data
 
 
