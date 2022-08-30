@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
-from .models import Exercise, SetItem, Trainer
-from .forms import TrainerRegister,TrainerLogin,ExerciseForm,SetForm
+from .models import Exercise, Trainer
+from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm
 from django.contrib.auth import login, authenticate,logout
 from django.forms.models import inlineformset_factory
 
@@ -81,26 +81,25 @@ def new_exercise(request):
     }
     return render(request, "add_exercise.html", context)
 
-# def assign_exercise(request):
-#     form = ExerciseForm()    
-#     setsFormset = inlineformset_factory(model= SetItem,parent_model=Exercise, form=SetForm,extra=0)
-#     formSet = setsFormset()           
-#     if request.method == "POST":
-#         form = ExerciseForm(request.POST,request.FILES)
-#         formSet = setsFormset(request.POST)           
-#         if all([form.is_valid(),formSet.is_valid()]):
-#             exercise =form.save()
-#             exercise.trainer = request.user.trainer
-#             exercise.save()
-#             for form in formSet:
-#                 child = form.save(commit=False)
-#                 child.exercise = exercise
-#                 child.save()
-#                 # Where you want to go after a successful login
-#             return redirect("home")
+def assign_exercise(request):
+    form = ExerciseItemForm()    
+    # formSet = setsFormset()           
+    if request.method == "POST":
+        form = ExerciseItemForm(request.POST,request.FILES)
+        # formSet = setsFormset(request.POST)           
+        if all([form.is_valid()]):
+            exercise =form.save()
+            # exercise.trainee = request.trainee
+            exercise.save()
+            # for form in formSet:
+            #     child = form.save(commit=False)
+            #     child.exercise = exercise
+            #     child.save()
+                # Where you want to go after a successful login
+            return redirect("home")
 
-#     context = {
-#         "form": form,
-#         "setsForm":formSet
-#     }
-#     return render(request, "assign_exercise.html", context)
+    context = {
+        "form": form,
+        # "setsForm":formSet
+    }
+    return render(request, "assign_exercise.html", context)
