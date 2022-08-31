@@ -69,7 +69,7 @@ class SubscribeView(CreateAPIView):
         # end_date= datetime.strptime(date, '%Y-%m-%d').date()
         serializer.save(trainee = self.request.user.trainee )
 
-class ReSubscribeView(RetrieveUpdateAPIView):
+class UpdateSubscribeView(RetrieveUpdateAPIView):
     queryset = SubscriptionItem.objects.all()
     serializer_class = SubscribeSerilizer
     lookup_field = 'id'
