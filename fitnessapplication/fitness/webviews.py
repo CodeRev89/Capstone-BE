@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
-from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm
+from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm, TrainerSubscriptionForm
 from django.contrib.auth import login, authenticate,logout
 from django.forms.models import inlineformset_factory
 from django.http import JsonResponse
