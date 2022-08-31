@@ -19,7 +19,7 @@ from fitness import views
 from fitness import webviews as web
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenRefreshView
-from fitness.views import TrainerListView, TrainerDetailView  #TrainerSubscriptionListView
+from fitness.views import TrainerListView, TrainerDetailView , TrainerSubscriptionListView,ExerciseItemUpdateView,ExerciseListView,SubscribeView
 
 from django.conf import settings
 
@@ -29,11 +29,11 @@ urlpatterns = [
     path("trainee-login/", views.UserTokenApiView.as_view(), name="login-trainee"),
     path('token-refresh/', TokenRefreshView.as_view(), name='token-refresh'),
     path('trainer-list/', TrainerListView.as_view(), name='trainer-list'),
-    path('trainer-detail/<int:object_id>/', TrainerDetailView.as_view(), name='trainer-detail'),
-    #  path('trainer-subcription-list/', TrainerSubscriptionListView.as_view(), name='subs-list'),
-    # path("trainer-register/", Trainer_register,name="register-trainer"),
-    # path("trainer-login/", Trainer_login, name="login-trainer"),
-    # path("home-page/", Trainer_homepage, name="profile-trainer"),
+    path('trainer-detail/<int:trainer_id>/', TrainerDetailView.as_view(), name='trainer-detail'),
+    path('trainer-subcription-list/<int:trainer_id>/', TrainerSubscriptionListView.as_view(), name='subs-list'),
+    path('exercise/<int:exercise_id>', ExerciseItemUpdateView.as_view(), name =' trainee-exersize'),
+    path('my-exercises/', ExerciseListView.as_view(), name =' my-exersises'),
+    path('subscribe', SubscribeView.as_view(), name =' subscribe'),
     
     ### WEB ###
     path("trainer-register/", web.registration_view,name="register-trainer"),
