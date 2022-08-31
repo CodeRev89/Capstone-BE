@@ -6,7 +6,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .models import Trainer, Subscription, ExerciseItem
+from .models import SubscriptionItem, Trainer, Subscription, ExerciseItem
 from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer,ExerciseItemSerializer, TrainerDetailSerializer, TrainerListSerializer, TrainerSubscriptionListSerializer,SubscribeSerilizer
 
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -68,6 +68,14 @@ class SubscribeView(CreateAPIView):
         # date= query["end_date"]
         # end_date= datetime.strptime(date, '%Y-%m-%d').date()
         serializer.save(trainee = self.request.user.trainee )
+
+class ReSubscribeView(RetrieveUpdateAPIView):
+    queryset = SubscriptionItem.objects.all()
+    serializer_class = SubscribeSerilizer
+    lookup_field = 'id'
+    lookup_url_kwarg = 'plan_id'
+    permission_classes = [IsOwner,]
+    
 
     
 

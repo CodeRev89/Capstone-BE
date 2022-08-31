@@ -78,7 +78,7 @@ class Subscription(models.Model):
 class SubscriptionItem(models.Model):
     plan = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True,related_name="items")  
     trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE, null=True,related_name="trainees")  
-    start_date = models.DateField(auto_now=True) 
+    start_date = models.DateField() 
     end_date = models.DateField()
     active = models.BooleanField()
     payment_status = models.BooleanField()

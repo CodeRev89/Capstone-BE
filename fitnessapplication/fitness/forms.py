@@ -36,4 +36,4 @@ class ExerciseItemForm(forms.ModelForm):
 class TrainerSubscriptionForm(forms.ModelForm):
     class Meta:
         model = Subscription
-        fields = ["name", "price", "describtion", "trainer", "duration"]
+        fields = ["name", "price", "describtion",  "duration"]

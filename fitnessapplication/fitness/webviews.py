@@ -146,27 +146,28 @@ def subsripres_list(request,trainerId):
     }
     return render(request, "subscribers.html", context)
 
-def trainer_subcription_create_view(request):
+def subcription_create_view(request):
     form = TrainerSubscriptionForm()
     if request.method == "POST":
         form = TrainerSubscriptionForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("list-view")
+            plan=form.save(commit=False)
+            plan.trainer = request.user.trainer
+            plan.save()
+            return redirect(f'/subscriptions/{request.user.id}' )
     context = {
         "form": form,
     }
-    return render(request, 'create_page.html', context)
+    return render(request, 'add_subscribtion.html', context)
 
-
-def trainer_subscription_update_view(request, subscription_id):
+def subscription_update_view(request, subscription_id):
     subscription = TrainerSubscriptionForm.objects.get(id=subscription_id)
     form = TrainerSubscriptionForm(instance=subscription)
     if request.method == "POST":
         form = TrainerSubscriptionForm(request.POST, instance=subscription)
         if form.is_valid():
             form.save()
-            return redirect("list-page")
+            return redirect(f'/subscriptions/{request.user.id}' )
     context = {
         "subscription": subscription,
         "form": form,
@@ -174,6 +175,9 @@ def trainer_subscription_update_view(request, subscription_id):
     return render(request, 'object_update.html', context)
 
 
-def trainer_subscription_delete_view(request, subcription_id):
-    Subscription.objects.get(id=subcription_id).delete()
-    return redirect("list-view")
+def subscription_delete_view(request, subId):
+    sub= Subscription.objects.get(id=subId)
+    if sub.trainer == request.user.trainer:
+        sub.delete()
+    
+    return redirect(f'/subscriptions/{request.user.id}' )
