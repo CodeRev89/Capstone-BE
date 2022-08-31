@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
-from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm
+from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm, TrainerSubscriptionForm
 from django.contrib.auth import login, authenticate,logout
 from django.forms.models import inlineformset_factory
 from django.http import JsonResponse
@@ -145,3 +145,39 @@ def subsripres_list(request,trainerId):
         "subsItems": subsItems,
     }
     return render(request, "subscribers.html", context)
+
+def subcription_create_view(request):
+    form = TrainerSubscriptionForm()
+    if request.method == "POST":
+        form = TrainerSubscriptionForm(request.POST)
+        if form.is_valid():
+            plan=form.save(commit=False)
+            plan.trainer = request.user.trainer
+            plan.save()
+            return redirect(f'/subscriptions/{request.user.id}' )
+    context = {
+        "form": form,
+    }
+    return render(request, 'add_subscribtion.html', context)
+
+def subscription_update_view(request, subscription_id):
+    subscription = TrainerSubscriptionForm.objects.get(id=subscription_id)
+    form = TrainerSubscriptionForm(instance=subscription)
+    if request.method == "POST":
+        form = TrainerSubscriptionForm(request.POST, instance=subscription)
+        if form.is_valid():
+            form.save()
+            return redirect(f'/subscriptions/{request.user.id}' )
+    context = {
+        "subscription": subscription,
+        "form": form,
+    }
+    return render(request, 'object_update.html', context)
+
+
+def subscription_delete_view(request, subId):
+    sub= Subscription.objects.get(id=subId)
+    if sub.trainer == request.user.trainer:
+        sub.delete()
+    
+    return redirect(f'/subscriptions/{request.user.id}' )

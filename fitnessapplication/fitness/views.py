@@ -1,14 +1,16 @@
+from datetime import datetime
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView,RetrieveUpdateAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .models import Trainer
-from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer, TrainerDetailSerializer, TrainerListSerializer #TrainerSubscriptionListSerializer,TrainerSubscriptionCreateSerializer
+from .models import SubscriptionItem, Trainer, Subscription, ExerciseItem
+from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer,ExerciseItemSerializer, TrainerDetailSerializer, TrainerListSerializer, TrainerSubscriptionListSerializer,SubscribeSerilizer
 
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from .permissions import IsOwner
 
 
 
@@ -17,45 +19,66 @@ class UserTokenApiView(TokenObtainPairView):
 
 class TraineeRegisterAPIView(CreateAPIView):
     serializer_class=TraineeRegisterSerializer
+    
+class ExerciseItemUpdateView(RetrieveUpdateAPIView):
+    queryset = ExerciseItem.objects.all()
+    serializer_class = ExerciseItemSerializer
+    lookup_field = 'id'
+    lookup_url_kwarg = 'exercise_id'
+    permission_classes = [IsOwner]
+
+class ExerciseListView(ListAPIView):
+    queryset = ExerciseItem.objects.all()
+    serializer_class = ExerciseItemSerializer
+    permission_classes = [IsOwner]
+    def get_queryset(self):
+        return ExerciseItem.objects.filter(trainee=str(self.request.user.id))
 
 
 class TrainerListView(ListAPIView):
     queryset = Trainer.objects.all()
     serializer_class = TrainerListSerializer
 
-    
+
 class TrainerDetailView(RetrieveAPIView):
     queryset = Trainer.objects.all()
     serializer_class = TrainerDetailSerializer
-    lookup_field = 'user'
-    lookup_url_kwarg = 'object_id'
+    lookup_field = 'user__id'
+    lookup_url_kwarg = 'trainer_id'
     
+
+# all subsc
+class TrainerSubscriptionListView(ListAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = TrainerSubscriptionListSerializer
+
+# by trainer
+class TrainerSubscriptionListView(ListAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = TrainerSubscriptionListSerializer
+    lookup_field = 'trainer__user__id'
+    lookup_url_kwarg = 'trainer_id'
+
+# subscribe 
+class SubscribeView(CreateAPIView):
+    serializer_class = SubscribeSerilizer
+    permission_classes = [IsAuthenticated,]
+    def perform_create(self, serializer):
+        query = self.request.GET
+        # date= query["end_date"]
+        # end_date= datetime.strptime(date, '%Y-%m-%d').date()
+        serializer.save(trainee = self.request.user.trainee )
+
+class ReSubscribeView(RetrieveUpdateAPIView):
+    queryset = SubscriptionItem.objects.all()
+    serializer_class = SubscribeSerilizer
+    lookup_field = 'id'
+    lookup_url_kwarg = 'plan_id'
+    permission_classes = [IsOwner,]
     
-# class TrainerSubscriptionListView(ListAPIView):
-#     queryset = ModelName.objects.all()
-#     serializer_class = TrainerSubscriptionListSerializer
-#     permission_classes = [AllowAny]
 
     
-# class TrainerSubsciptionCreateView(CreateAPIView):
-#     serializer_class = TrainerSubscriptionCreateSerializer
-#     permission_classes = [IsAuthenticated]
 
-    
-# class TrainerSubsciptionUpdateView(UpdateAPIView):
-#     queryset = ModelName.objects.all()
-#     serializer_class = TrainerSubscriptionCreateSerializer
-#     lookup_field = 'id'
-#     lookup_url_kwarg = 'object_id'
-#     permission_classes = [IsAuthenticated]
-
-    
-# class TrainerSubscriptionDeleteView(DestroyAPIView):
-#     queryset = ModelName.objects.all()
-#     serializer_class = TrainerListSerializer
-#     lookup_field = 'id'
-#     lookup_url_kwarg = 'object_id'
-#     permission_classes = [IsAuthenticated]
 
 
 
