@@ -1,8 +1,8 @@
 from django import forms
 # from .models import Trainer, TrainerWorkout
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
-from .models import Exercise, ExerciseItem, Subscription
+from .models import Exercise, ExerciseItem, Subscription,User
 
 
 

@@ -1,3 +1,4 @@
+from black import re
 from django.shortcuts import render, redirect
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
@@ -28,9 +29,9 @@ def registration_view(request):
             user = form.save(commit=False)
             # hashing the password
             user.set_password(user.password)
+            user.is_trainer = True
             user.save()
 
-            Trainer.objects.create(user=user)
 
             login(request,user)
 
@@ -51,9 +52,11 @@ def user_login(request):
 
             auth_user = authenticate(username=username, password=password)
             if auth_user is not None:
-                login(request, auth_user)
-                # Where you want to go after a successful login
-                return redirect("home")
+                if auth_user.is_trainer:
+                    login(request, auth_user)
+                    # Where you want to go after a successful login
+                    return redirect("home")
+                
 
     context = {
         "form": form,

@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.models import User
-from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
+# from django.contrib.auth.models import User
+from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer,User
 
 
 class UserTokenSerializer(TokenObtainPairSerializer):
@@ -30,10 +30,7 @@ class TraineeRegisterSerializer(serializers.ModelSerializer):
         validated_data['refresh'] = str(token)
         validated_data['access'] = str(token.access_token)
 
-        Trainee.objects.create(
-            user = new_user,
-            # etc... 
-        )
+    
         return validated_data
 
 
@@ -76,9 +73,11 @@ class TrainerListSerializer(serializers.ModelSerializer):
   
     
 class TrainerDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
     class Meta:
         model = Trainer
-        fields = ['user', 'age', 'experience', 'specialty',]
+        fields = ['user', 'age', 'experience', 'specialty',"image"]
         
 class TrainerSubscriptionListSerializer(serializers.ModelSerializer):
     trainer_name = serializers.SerializerMethodField()

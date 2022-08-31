@@ -1,12 +1,12 @@
 from datetime import datetime
 from unicodedata import category
 from django.db import models
-from django.contrib.auth.models import AbstractUser,User
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
-# class User(AbstractUser):
-#     is_trainer = models.BooleanField(default=False)
+class User(AbstractUser):
+    is_trainer = models.BooleanField(default=False)
 
 class Trainee(models.Model):
     user = models.OneToOneField(
@@ -31,7 +31,7 @@ class Trainer(models.Model):
     age=models.IntegerField(blank=True, null=True)
     experience=models.IntegerField(blank=True, null=True)
     specialty= models.CharField(max_length=250)
-    image=models.ImageField(upload_to="trainers/",default="")
+    image=models.ImageField(upload_to="trainers/",default="https://t4.ftcdn.net/jpg/00/64/67/63/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg")
 
     
     def __str__(self):
@@ -48,7 +48,7 @@ class Exercise(models.Model):
     name= models.CharField(max_length=250)
     short_description= models.CharField(max_length=500)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True,related_name="exercises")  
-    image=models.ImageField(upload_to="exercises/",default="")
+    image=models.ImageField(upload_to="exercises/",default="https://t4.ftcdn.net/jpg/00/64/67/63/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg")
     video = models.URLField(max_length=250)
 
     def __str__(self):
@@ -71,7 +71,9 @@ class Subscription(models.Model):
     name =models.CharField(max_length=250) 
     price =models.IntegerField(blank=False) 
     describtion =models.CharField(max_length=250)
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="subs")  
+    # trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="subs")  
+    trainer = models.OneToOneField(
+        Trainer, on_delete=models.CASCADE, primary_key=True) # primary_ke
     duration = models.IntegerField(blank=False) 
 
     def __str__(self):
