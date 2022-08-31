@@ -19,7 +19,7 @@ from fitness import views
 from fitness import webviews as web
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenRefreshView
-from fitness.views import TrainerListView, TrainerDetailView ,ReSubscribeView, TrainerSubscriptionListView,ExerciseItemUpdateView,ExerciseListView,SubscribeView
+from fitness.views import TrainerListView, TrainerDetailView ,MyPlansView,ReSubscribeView, TrainerSubscriptionListView,ExerciseItemUpdateView,ExerciseListView,SubscribeView
 
 from django.conf import settings
 
@@ -34,6 +34,7 @@ urlpatterns = [
     path('trainer-subcription-list/<int:trainer_id>/', TrainerSubscriptionListView.as_view(), name='subs-list'),
     path('exercise/<int:exercise_id>', ExerciseItemUpdateView.as_view(), name =' trainee-exersize'),
     path('my-exercises/', ExerciseListView.as_view(), name =' my-exersises'),
+    path('my-plans/', MyPlansView.as_view(), name =' my-plans'),
     path('subscribe', SubscribeView.as_view(), name =' subscribe'),
     path('renew/<int:plan_id>', ReSubscribeView.as_view(), name =' renew'),
     
