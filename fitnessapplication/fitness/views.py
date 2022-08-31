@@ -75,6 +75,12 @@ class ReSubscribeView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     lookup_url_kwarg = 'plan_id'
     permission_classes = [IsOwner,]
+
+class MyPlansView(ListAPIView):
+    serializer_class = SubscribeSerilizer
+    permission_classes = [IsOwner,]
+    def get_queryset(self):
+        return SubscriptionItem.objects.filter(trainee=str(self.request.user.id))
     
 
     
