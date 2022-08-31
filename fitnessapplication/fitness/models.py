@@ -49,6 +49,8 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
+    def get_category(self):
+        return self.category.name
 
 class ExerciseItem(models.Model):
     trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE, null=True,related_name="exercises")   
@@ -70,6 +72,8 @@ class Subscription(models.Model):
 
     def __str__(self):
         return self.name 
+    def get_trainer_name(self):
+        return(self.trainer.user.username)
 
 class SubscriptionItem(models.Model):
     plan = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True,related_name="items")  
