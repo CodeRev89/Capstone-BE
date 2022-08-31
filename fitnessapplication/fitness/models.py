@@ -17,7 +17,7 @@ class Trainee(models.Model):
     blood_type= models.CharField(max_length=250, null=True)
     image=models.ImageField(upload_to="trainees/",default="")
 
-    
+    # testing branch issue
 
     
     def __str__(self):
