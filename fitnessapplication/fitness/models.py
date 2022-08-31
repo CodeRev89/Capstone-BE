@@ -15,6 +15,8 @@ class Trainee(models.Model):
     height=models.IntegerField(null=True)
     weight=models.IntegerField(null=True)
     blood_type= models.CharField(max_length=250, null=True)
+    image=models.ImageField(upload_to="trainees/",default="")
+
     
 
     
@@ -29,6 +31,8 @@ class Trainer(models.Model):
     age=models.IntegerField(blank=True, null=True)
     experience=models.IntegerField(blank=True, null=True)
     specialty= models.CharField(max_length=250)
+    image=models.ImageField(upload_to="trainers/",default="")
+
     
     def __str__(self):
         return F'{self.user.id} - {self.user.username}'
@@ -73,7 +77,7 @@ class Subscription(models.Model):
     def __str__(self):
         return self.name 
     def get_trainer_name(self):
-        return(self.trainer.user.username)
+        return(f"{self.trainer.user.first_name} {self.trainer.user.last_name}")
 
 class SubscriptionItem(models.Model):
     plan = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True,related_name="items")  

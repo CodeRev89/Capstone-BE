@@ -19,3 +19,4 @@ tests/report/
 .venv
 env
 db.sqlite3
+media
