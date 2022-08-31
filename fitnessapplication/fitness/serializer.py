@@ -61,12 +61,18 @@ class TraineeLoginSerializer(serializers.Serializer):
         data["access"] = token
         return data
 
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username']
 
 class TrainerListSerializer(serializers.ModelSerializer):
-    
+    user = UserSerializer()
+
     class Meta:
         model = Trainer
-        fields = ['user','age', 'experience', 'specialty', ]
+        fields = ['user','age', 'experience', 'specialty',"image" ]
         
   
     
