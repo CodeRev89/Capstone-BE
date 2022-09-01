@@ -1,6 +1,7 @@
 from datetime import datetime
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import filters
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView,RetrieveUpdateAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -10,6 +11,7 @@ from .models import SubscriptionItem, Trainer, Subscription, ExerciseItem
 from .serializer import TraineeRegisterSerializer, TraineeLoginSerializer, UserTokenSerializer,ExerciseItemSerializer, TrainerDetailSerializer, TrainerListSerializer, TrainerSubscriptionListSerializer,SubscribeSerilizer
 
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
 from .permissions import IsOwner
 
 
@@ -27,17 +29,32 @@ class ExerciseItemUpdateView(RetrieveUpdateAPIView):
     lookup_url_kwarg = 'exercise_id'
     permission_classes = [IsOwner]
 
-class ExerciseListView(ListAPIView):
+class TodayExerciseListView(ListAPIView):
     queryset = ExerciseItem.objects.all()
     serializer_class = ExerciseItemSerializer
     permission_classes = [IsOwner]
     def get_queryset(self):
-        return ExerciseItem.objects.filter(trainee=str(self.request.user.id))
+        return ExerciseItem.objects.filter(trainee=self.request.user.id,date=datetime.today())
+
+class MonthlyExerciseListView(ListAPIView):
+    queryset = ExerciseItem.objects.all()
+    serializer_class = ExerciseItemSerializer
+    permission_classes = [IsOwner]
+    def get_queryset(self):
+        query = self.request.GET
+        month=query["month"]
+        print(datetime.today().month)
+        return ExerciseItem.objects.filter(trainee=self.request.user.id,date__month=month)
 
 
 class TrainerListView(ListAPIView):
     queryset = Trainer.objects.all()
     serializer_class = TrainerListSerializer
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter]
+    filterset_fields = ['specialty',"experience"]
+    search_fields = ['user__username','specialty',"user__first_name","user__last_name"]
+
+
 
 
 class TrainerDetailView(RetrieveAPIView):
