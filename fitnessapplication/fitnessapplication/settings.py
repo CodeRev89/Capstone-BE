@@ -44,11 +44,28 @@ INSTALLED_APPS = [
     # styling 
     'fontawesomefree',
     'django_bootstrap5',
+    # tailwind 
+    'tailwind',
+    'theme',
+    'django_browser_reload',
 
 ]
 
 AUTH_USER_MODEL = 'fitness.User'
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+
+# TAILWIND CONFIG ###################
+TAILWIND_APP_NAME = 'theme'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+    "10.0.2.2",
+]
+
+NPM_BIN_PATH = r"c:/Program Files/nodejs/npm.cmd"
+# TAILWIND END ######################
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -58,6 +75,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # tailwind middleware
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 
