@@ -46,6 +46,7 @@ table {
 /* start of styles */
 
 body {
+    font-family: 'Poppins', sans-serif;
     height: 100vh;
     background-color:  bisque;
     display: flex;
@@ -73,8 +74,8 @@ hr {
 
 .sidebar-link {
     color: blueviolet;
-    margin: 1em;
-    padding: 1.3em 2em;
+    /* margin: 1em; */
+    padding:  2em;
     text-decoration: none;
     background-color: aqua;
 }
@@ -84,4 +85,5 @@ hr {
     /* padding: 1.3em;
     margin: 1em 0; */
 }
+
 
