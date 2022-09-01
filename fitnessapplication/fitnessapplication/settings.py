@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "fitness",
     "rest_framework",
+    "django_filters",
     "crispy_forms",
 ]
 
@@ -60,7 +61,8 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+    ),
+    "DEAFULT_FILTER_BACKENDS":["djnago_filters.rest_framework.DjangoFilterBackend"]
 }
 
 SIMPLE_JWT = {

@@ -101,7 +101,7 @@ class ExerciseItemSerializer(serializers.ModelSerializer):
     exercise= ExerciseSerializer()
     class Meta:
         model= ExerciseItem
-        fields = ['trainee', 'exercise', 'reps', 'sets', 'time', 'done']
+        fields = ['trainee', 'exercise', 'reps', 'sets', 'time', 'done',"date"]
 
 class SubscribeSerilizer(serializers.ModelSerializer):
     class Meta:

@@ -62,6 +62,7 @@ class ExerciseItem(models.Model):
     reps =models.IntegerField(blank=False, default=5)  
     sets =models.IntegerField(blank=False,default=5)  
     time =models.TimeField(default="10:00") 
+    date =models.DateField(default="2022-09-01") 
     done =  models.BooleanField(default=False)
 
     def __str__(self):
