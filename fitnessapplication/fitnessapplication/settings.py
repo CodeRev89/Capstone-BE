@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     "fitness",
     "rest_framework",
     "crispy_forms",
+    # styling 
+    'fontawesomefree',
+    'django_bootstrap5',
+
 ]
 
 AUTH_USER_MODEL = 'fitness.User'
