@@ -1,0 +1,31 @@
+{% load static %}
+
+{% load bootstrap5 %}
+
+
+<!-- Modal -->
+<div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="loginLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form action="{% url 'login-trainer' %}" method="post">
+      <div class="modal-content indigo">
+        <div class="modal-header indigo">
+          <h5 class="modal-title fw-bold" id="loginLabel">Login to account</h5>
+          <button type="button" class="btn-close text-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body indigo">
+          <p class="mb-3">
+            Please login using the correct combination of username and password!
+          </p>
+          {% csrf_token %}
+          {% bootstrap_form login %}
+          {{ login.FieldName.errors.as_text }}
+        </div>
+        <div class="modal-footer indigo">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-warning" value="login">login</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -40,12 +40,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "fitness",
     "rest_framework",
+    # styles
+    'bootstrap5',
+    "fontawesomefree",
     "django_filters",
     "crispy_forms",
 ]
 
 AUTH_USER_MODEL = 'fitness.User'
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -56,7 +59,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -82,6 +84,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # context proccessor for login and register forms
+                "fitness.context_processor.processor",
             ],
         },
     },

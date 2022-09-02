@@ -1,0 +1,28 @@
+{% load static %}
+{% load bootstrap5 %}
+
+<!-- Modal -->
+<div class="modal fade" id="register" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="registerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form action="{% url 'register-trainer' %}" method="post">
+            <div class="modal-content indigo">
+                <div class="modal-header indigo">
+                    <h5 class="modal-title fw-bold" id="registerLabel">Register a new account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body indigo">
+                    <p class="mb-4">
+                        Register using a unique username and a strong password!
+                    </p>
+                    {% csrf_token %}
+                    {% bootstrap_form register %}
+                </div>
+                <div class="modal-footer indigo">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning" value="register">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

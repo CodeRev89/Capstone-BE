@@ -75,6 +75,8 @@ urlpatterns = [
     path("subscribers/<int:trainerId>", web.subsripres_list, name="subscribers"),
     path("add-subscription/", web.subcription_create_view, name="add-subscription"),
     path("delete-subscription/<int:subId>", web.subscription_delete_view, name="delete-subscription"),
+    # error view
+    path("404/", web.error_view, name="error"),
 ]
 
 

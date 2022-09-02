@@ -17,6 +17,8 @@ class TrainerRegister(forms.ModelForm):
             "password": forms.PasswordInput(),
         }
         
+        
+
 class TrainerLogin(forms.Form):
     username = forms.CharField(required=True)
     password = forms.CharField(required=True, widget=forms.PasswordInput())
