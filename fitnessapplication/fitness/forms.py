@@ -33,7 +33,7 @@ class ExerciseForm(forms.ModelForm):
 class ExerciseItemForm(forms.ModelForm):
     class Meta:
         model = ExerciseItem
-        fields = ["exercise", "reps", "sets", "time"]
+        fields = ["exercise", "reps", "sets", "time","date"]
     
 class TrainerSubscriptionForm(forms.ModelForm):
     class Meta:

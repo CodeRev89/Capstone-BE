@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     # styles
     'bootstrap5',
     "fontawesomefree",
+    "django_filters",
+    "crispy_forms",
 ]
 
 AUTH_USER_MODEL = 'fitness.User'
@@ -61,7 +63,8 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+    ),
+    "DEAFULT_FILTER_BACKENDS":["djnago_filters.rest_framework.DjangoFilterBackend"]
 }
 
 SIMPLE_JWT = {
