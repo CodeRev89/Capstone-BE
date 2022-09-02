@@ -56,6 +56,7 @@ urlpatterns = [
 
     #user Performance
     path('performace', views.TraineePerformance.as_view(), name ='performance'),
+    path('performace/monthly', views.MonthlyTraineePerformance.as_view(), name ='monthly-performance'),
 
     #categories
     path('categories/',views.CategoryView.as_view(), name ='categories'),
