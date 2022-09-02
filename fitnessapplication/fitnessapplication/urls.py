@@ -19,27 +19,48 @@ from fitness import views
 from fitness import webviews as web
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenRefreshView
-from fitness.views import TrainerListView, TrainerDetailView ,MyPlansView,UpdateSubscribeView,MonthlyExerciseListView, TrainerSubscriptionListView,ExerciseItemUpdateView,TodayExerciseListView,SubscribeView
 
 from django.conf import settings
 
 
 
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # AUTH
     path("trainee-register/", views.TraineeRegisterAPIView.as_view(),name="register-trainee"),
     path("trainee-login/", views.UserTokenApiView.as_view(), name="login-trainee"),
     path('token-refresh/', TokenRefreshView.as_view(), name='token-refresh'),
-    path('trainer-list/', TrainerListView.as_view(), name='trainer-list'),
-    path('trainer-detail/<int:trainer_id>/', TrainerDetailView.as_view(), name='trainer-detail'),
-    path('trainer-subcription-list/<int:trainer_id>/', TrainerSubscriptionListView.as_view(), name='subs-list'),
-    path('exercise/<int:exercise_id>', ExerciseItemUpdateView.as_view(), name =' trainee-exersize'),
-    path('my-exercises/today', TodayExerciseListView.as_view(), name =' my-exersises'),
-    path('my-exercises/monthly', MonthlyExerciseListView.as_view(), name =' my-exersises-monthly'),
-    path('my-plans/', MyPlansView.as_view(), name =' my-plans'),
-    path('subscribe', SubscribeView.as_view(), name =' subscribe'),
-    path('update/plan/<int:plan_id>', UpdateSubscribeView.as_view(), name =' renew'),
+
+    #Profile
+    path("my-profile/", views.MyProfileAPIView.as_view(), name="login-trainee"), # Edit and View My profile
+    path("trainee/<int:trainee_id>", views.TraineeProfileAPIView.as_view(), name="login-trainee"),
+
+    #Trainers
+    path('trainer-list/', views.TrainerListView.as_view(), name='trainer-list'),
+    path('trainer-detail/<int:trainer_id>/', views.TrainerDetailView.as_view(), name='trainer-detail'),
+
+    #Trainers Subscriptions
+    path('trainer-subcription-list/<int:trainer_id>/', views.TrainerSubscriptionListView.as_view(), name='subs-list'),
+
+    #Exercises Items
+    path('exercise/<int:exercise_id>', views.ExerciseItemUpdateView.as_view(), name =' trainee-exersize'),
+    path('my-exercises/today', views.TodayExerciseListView.as_view(), name =' my-exersises'),
+    path('my-exercises/monthly', views.MonthlyExerciseListView.as_view(), name =' my-exersises-monthly'),
+
+    #Subscribtions
+    path('my-plans/', views.MyPlansView.as_view(), name =' my-plans'),
+    path('subscribe', views.SubscribeView.as_view(), name =' subscribe'),
+    path('update/plan/<int:plan_id>', views.UpdateSubscribeView.as_view(), name =' renew'),
+
+    #user Performance
+    path('performace', views.TraineePerformance.as_view(), name ='performance'),
+
+    #categories
+    path('categories/',views.CategoryView.as_view(), name ='categories'),
+    path('samples/',views.SampleExerciseView.as_view(), name ='samples'),
+
     
     ### WEB ###
     path("trainer-register/", web.registration_view,name="register-trainer"),
