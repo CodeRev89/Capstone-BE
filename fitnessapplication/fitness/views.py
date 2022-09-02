@@ -1,6 +1,5 @@
 from calendar import monthrange
 from datetime import datetime, date,timedelta
-import pandas
 from unicodedata import category
 from rest_framework.response import Response
 from rest_framework.views import APIView

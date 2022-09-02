@@ -19,7 +19,6 @@
           </p>
           {% csrf_token %}
           {% bootstrap_form login %}
-          {{ login.FieldName.errors.as_text }}
         </div>
         <div class="modal-footer indigo">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

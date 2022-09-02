@@ -89,7 +89,8 @@ def logout_view(request):
 def trainer_exercises_list(request,trainerId):
     trainer = Trainer.objects.get(user__id = trainerId)
     exercises: list[Exercise] = list(Exercise.objects.filter(trainer = trainer))       
-
+    # if trainer.DoesNotExist:
+    #     return redirect('error')
     context = {
         "exercises": exercises,
     }

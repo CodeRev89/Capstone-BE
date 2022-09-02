@@ -2,64 +2,69 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block title %}
-  New Exercise
+New Exercise
 {% endblock title %}
-{% block content %} 
+{% block content %}
 <style>
-    .ingredient-form{
-        border-bottom:1px solid #c4c4c4;
-        margin-bottom:15px
+    .ingredient-form {
+        border-bottom: 1px solid #c4c4c4;
+        margin-bottom: 15px
     }
-    .step-form{
-        border-bottom:1px solid #c4c4c4;
-        margin-bottom:15px
+
+    .step-form {
+        border-bottom: 1px solid #c4c4c4;
+        margin-bottom: 15px
     }
+
     .hidden {
         display: none
     }
+
     .outline-btn {
         color: #645cff;
         background: white;
         border-radius: 5px;
-        border:1px solid #645cff;
-      }
-      .outline-btn:hover{
+        border: 1px solid #645cff;
+    }
+
+    .outline-btn:hover {
         color: white;
-      }
-      .form-check{
-          display:none
-      }
-    
+    }
+
+    .form-check {
+        display: none
+    }
 </style>
-<form action="{% url 'assign-exercise' trainee.user.id  %}" method="POST" enctype="multipart/form-data"> 
+<form action="{% url 'assign-exercise' trainee.user.id  %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-{% comment %} {{ forms|crispy  }}  {% endcomment %}
-<div style="width:100%" class="ms-5">
-    <p>{{traine.user.username}}</p>
-    <h4>Exercises</h4>
-    {{forms.management_form}}
-    <div id='set-form-list'>
-        {% for form in forms %}
+    {% comment %} {{ forms }} {% endcomment %}
+    <div style="width:100%" class="ms-5">
+        <p>{{traine.user.username}}</p>
+        <h4>Exercises</h4>
+        {{forms.management_form}}
+        <div id='set-form-list'>
+            {% for form in forms %}
             <div class='set-form'>
 
             </div>
 
-        {% endfor %}
+            {% endfor %}
+        </div>
+        <div id='empty-set-form' class='hidden'>
+            {% comment %} <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button> {%
+            endcomment %}
+            {{forms.empty_form}}
+        </div>
+        <button id="add-more-set" type="button" class="btn outline-btn mt-2 ">Add Exercise</button>
     </div>
-    <div id='empty-set-form' class='hidden'> 
-        {% comment %} <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button> {% endcomment %}
-         {{forms.empty_form|crispy}}
-    </div>
-    <button id="add-more-set" type="button" class="btn outline-btn mt-2 ">Add Exercise</button>
-</div>
-<input type="submit" value="Add"> 
- </form> 
-<br>  
+    <input type="submit" value="Add">
+</form>
+<br>
 <script>
     const addMoreSetBtn = document.getElementById('add-more-set')
     const totalNewSetsForms = document.getElementById('id_exercises-TOTAL_FORMS')
     {% comment %} let ingredient_counter = 1 {% endcomment %}
-    addMoreSetBtn.addEventListener('click',add_new_set)
+    addMoreSetBtn.addEventListener('click', add_new_set)
     add_new_set()
     function add_new_set(event) {
         const currentSetForms = document.getElementsByClassName('set-form')
@@ -68,13 +73,13 @@
         const copyEmptyFormEl = document.getElementById('empty-set-form').cloneNode(true)
         copyEmptyFormEl.setAttribute('class', 'set-form card p-3')
         copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
-        
-        
 
-       // const counterDiv = document.getElementById('ingredient_counter').cloneNode(true)
-       // counterDiv.setAttribute('class', 'card-header' )
+
+
+        // const counterDiv = document.getElementById('ingredient_counter').cloneNode(true)
+        // counterDiv.setAttribute('class', 'card-header' )
         //counterDiv.innerHTML= `<h5 class="card-title"> Set ${currentFormCount + 1 }</h5>`
-       // copyEmptyFormEl.prepend(counterDiv)
+        // copyEmptyFormEl.prepend(counterDiv)
 
         const regex = new RegExp('__prefix__', 'g')
         copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
@@ -82,9 +87,8 @@
         // now add new empty form element to our html form
         formCopyTarget.append(copyEmptyFormEl)
     }
-    
+
 
 
 </script>
 {%endblock content %}
- 
