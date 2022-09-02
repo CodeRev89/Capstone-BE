@@ -1,1 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- start of row 1 -->
+<div class="row">
+    <div class="w-60">
+        <!-- welcome card container -->
+        <div class="bg-card heading-image d-flex justify-content-between">
+            <!-- card text -->
+            <div class="d-flex flex-column px-3">
+                <h1 class="mt-5 fs-1 fw-semibold c-headings">Hello {{request.user.first_name}}!</h1>
+                <p class="mt-3 ch-50">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Doloremque
+                    eveniet iusto
+                    eaque, amet
+                    et facere commodi repellat veniam iure numquam? Quis quaerat odio accusantium et
+                    eveniet.
+                </p>
+            </div>
+            <!-- card image -->
+            <img class="card-image ms-5" src="{% static 'images/waving.png' %}" alt="waving">
+        </div>
+        <!-- end of welcome card container -->
+    </div>
+</div>
+<!-- end of row 1 -->
+
+<!-- 
+    ##############################
+      list of users and workouts 
+    ##############################
+-->
+<!-- start of row 2 -->
+<div class="row">
+
+</div>
+{% endblock content %}
+
+<!-- USE GHOST ICON FOR 404 PAGE -->
+<!-- <i class="fa-solid fa-ghost"></i> -->

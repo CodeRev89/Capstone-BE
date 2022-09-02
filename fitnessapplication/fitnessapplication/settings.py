@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     "fitness",
     "rest_framework",
     # styles
-    'django_bootstrap5',
+    'bootstrap5',
     "fontawesomefree",
 ]
 
@@ -81,6 +81,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # context proccessor for login and register forms
+                "fitness.context_processor.processor",
             ],
         },
     },

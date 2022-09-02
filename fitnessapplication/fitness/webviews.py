@@ -1,13 +1,14 @@
-from black import re
-from django.shortcuts import render, redirect
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
-from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
+from xml.dom import ValidationErr
+from django.shortcuts import render, redirect
+from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer, User
 from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm, TrainerSubscriptionForm
 from django.contrib.auth import login, authenticate,logout
 from django.forms.models import inlineformset_factory
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+
+from fitness import forms
 
 
 
@@ -39,7 +40,9 @@ def registration_view(request):
     context={
         "form":form,
     }
-    return render(request,'register.html',context)
+    return render(request,'snippts/register.html',context)
+
+
 
 def user_login(request):
     form = TrainerLogin()
@@ -49,23 +52,25 @@ def user_login(request):
 
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-
+             
             auth_user = authenticate(username=username, password=password)
             if auth_user is not None:
                 if auth_user.is_trainer:
                     login(request, auth_user)
                     # Where you want to go after a successful login
                     return redirect("home")
-                
-
+                else: 
+                    return redirect("error")
     context = {
-        "form": form,
+        "login": form,
     }
-    return render(request, "login.html", context)
+    return render(request, "snippets/login.html", context)
+
+
 
 def logout_view(request):
     logout(request)
-    return redirect("register-trainer")
+    return redirect("home")
 
 
     ## Exercise
@@ -184,3 +189,9 @@ def subscription_delete_view(request, subId):
         sub.delete()
     
     return redirect(f'/subscriptions/{request.user.id}' )
+
+
+
+# 404 error redirection
+def error_view(request):
+    return render(request, '404.html')
