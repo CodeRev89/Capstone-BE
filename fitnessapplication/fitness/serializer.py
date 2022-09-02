@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 # from django.contrib.auth.models import User
-from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer,User
+from .models import Category, Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer,User
 
 
 class UserTokenSerializer(TokenObtainPairSerializer):
@@ -63,6 +63,13 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['first_name', 'last_name', 'username']
 
+class TraineeDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Trainee
+        fields = "__all__"
+
 class TrainerListSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
@@ -70,30 +77,44 @@ class TrainerListSerializer(serializers.ModelSerializer):
         model = Trainer
         fields = ['user','age', 'experience', 'specialty',"image" ]
         
-  
-    
-class TrainerDetailSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
-    class Meta:
-        model = Trainer
-        fields = ['user', 'age', 'experience', 'specialty',"image"]
-        
 class TrainerSubscriptionListSerializer(serializers.ModelSerializer):
     trainer_name = serializers.SerializerMethodField()
+    id = serializers.SerializerMethodField()
     class Meta:
         model = Subscription
-        fields = ['name', 'price', 'describtion', 'trainer','duration',"trainer_name"]
+        fields = ["id",'name', 'price', 'describtion', 'trainer','duration',"trainer_name",]
 
     def get_trainer_name(self, obj):
         return str(obj.get_trainer_name())
+    def get_id(self, obj):
+        return obj.trainer.user.id
+    
+class TrainerDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    id = serializers.SerializerMethodField()
+    subscription = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Trainer
+        fields = ["id",'user', 'age', 'experience', 'specialty',"image","subscription"]
+    def get_id(self, obj):
+            return obj.user.id
+    def get_subscription(self,obj):
+        try:
+            plan = Subscription.objects.get(trainer = obj)
+            plan_obj = TrainerSubscriptionListSerializer(plan).data
+        except:
+            plan_obj = ""
+        return plan_obj
+        
         
 class ExerciseSerializer(serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField()
-
+    trainer= TrainerDetailSerializer()
     class Meta:
         model= Exercise
-        fields = ["name","short_description","image","video","category_name"]
+        fields = ["name","short_description","image","video","category_name","trainer"]
+
     def get_category_name(self, obj):
         return str(obj.get_category())
 
@@ -106,4 +127,9 @@ class ExerciseItemSerializer(serializers.ModelSerializer):
 class SubscribeSerilizer(serializers.ModelSerializer):
     class Meta:
         model= SubscriptionItem
+        fields = "__all__"
+
+class CategorySerilizer(serializers.ModelSerializer):
+    class Meta:
+        model= Category
         fields = "__all__"

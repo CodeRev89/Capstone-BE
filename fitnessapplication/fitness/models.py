@@ -9,13 +9,20 @@ class User(AbstractUser):
     is_trainer = models.BooleanField(default=False)
 
 class Trainee(models.Model):
+    gender_choices = [
+        ("Gender", "Gender"),
+        ("male", "Male"),
+        ("female", "Female"),
+    ]
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
-    age=models.IntegerField(blank=True, null=True)
-    height=models.IntegerField(null=True)
-    weight=models.IntegerField(null=True)
+    gender = models.CharField(max_length=10, choices=gender_choices, default="Male")
+
+    age=models.IntegerField(blank=True, null=True,default=25)
+    height=models.IntegerField(null=True,default=165)
+    weight=models.IntegerField(null=True,default=70)
     blood_type= models.CharField(max_length=250, null=True)
-    image=models.ImageField(upload_to="trainees/",default="")
+    image=models.ImageField(upload_to="trainees/",default="https://t4.ftcdn.net/jpg/00/64/67/63/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg")
 
     # testing branch issue
 
@@ -41,14 +48,14 @@ class Category(models.Model):
     name= models.CharField(max_length=250)
 
     def __str__(self):
-        return self.name
+        return F'{self.id} - {self.name}'
 
 class Exercise(models.Model):
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="exercises")   
     name= models.CharField(max_length=250)
     short_description= models.CharField(max_length=500)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True,related_name="exercises")  
-    image=models.ImageField(upload_to="exercises/",default="https://t4.ftcdn.net/jpg/00/64/67/63/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg")
+    image=models.ImageField(upload_to="exercises/",default="")
     video = models.URLField(max_length=250)
 
     def __str__(self):

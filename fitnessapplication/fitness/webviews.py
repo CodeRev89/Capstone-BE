@@ -57,7 +57,6 @@ def user_login(request):
                     # Where you want to go after a successful login
                     return redirect("home")
                 
-
     context = {
         "form": form,
     }
