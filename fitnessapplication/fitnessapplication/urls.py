@@ -75,7 +75,8 @@ urlpatterns = [
     # exercises
     path('add-exercise/', web.new_exercise, name="add-exercise"),
     path("assign-exercise/<int:traineeId>", web.assign_exercise, name="assign-exercise"),
-    path("exercises/<int:trainerId>", web.trainer_exercises_list, name="exercises"),
+    path("exercises/", web.trainer_exercises_list, name="exercises"),
+    path("edit-exercise/<slug:slug>/", web.edit_exercise, name="edit-exercise"),
     # subs
     path("subscriptions/", web.trainer_subs_list, name="subscriptions"),
     path("subscribers/", web.subscribers_list, name="subscribers"),

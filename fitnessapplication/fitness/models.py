@@ -1,5 +1,4 @@
-from datetime import datetime
-from unicodedata import category
+from django.utils.text import slugify
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -52,12 +51,18 @@ class Category(models.Model):
 
 class Exercise(models.Model):
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="exercises")   
-    name= models.CharField(max_length=250)
+    name= models.CharField(max_length=250, unique=True)
     short_description= models.CharField(max_length=500)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True,related_name="exercises")  
-    image=models.ImageField(upload_to="exercises/",default="")
+    image=models.ImageField(upload_to="exercises/",default="static/exercise.png")
     video = models.URLField(max_length=250)
-
+    slug = models.SlugField(max_length=300, unique=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Exercise, self).save(*args, **kwargs)
+        
     def __str__(self):
         return self.name
     def get_category(self):
