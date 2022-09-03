@@ -1,23 +1,23 @@
-
-from xml.dom import ValidationErr
 from django.shortcuts import render, redirect
-from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer, User
-from .forms import TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm, TrainerSubscriptionForm
+from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
+from .forms import EditTrainerProfileForm, TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm, TrainerSubscriptionForm
 from django.contrib.auth import login, authenticate,logout
 from django.forms.models import inlineformset_factory
-from django.http import JsonResponse
-from django.template.loader import render_to_string
-
-from fitness import forms
 
 
 
 def handler404(request,exception):
-    return render(request,"404.html")
-    
-def home(request):
+    return render(request,"pages/404.html")
 
-    return render(request,'home_page.html')
+
+# when the user logs in as a "Trainee" instead of a "Trainer"
+def handler403(request):
+    return render(request, 'pages/403.html')
+
+
+def home(request):
+    return render(request,'pages/home_page.html')
+
 
 def registration_view(request):
     if request.user.is_authenticated:
@@ -32,15 +32,12 @@ def registration_view(request):
             user.set_password(user.password)
             user.is_trainer = True
             user.save()
-
-
             login(request,user)
-
             return redirect("home")
     context={
         "form":form,
     }
-    return render(request,'snippts/register.html',context)
+    return render(request,'modals/register.html',context)
 
 
 
@@ -60,12 +57,11 @@ def user_login(request):
                     # Where you want to go after a successful login
                     return redirect("home")
                 else: 
-                    return redirect("error")
+                    return redirect("forbidden")
     context = {
         "login": form,
     }
-    return render(request, "snippets/login.html", context)
-
+    return render(request, "modals/login.html", context)
 
 
 def logout_view(request):
@@ -73,27 +69,42 @@ def logout_view(request):
     return redirect("home")
 
 
-    ## Exercise
+# profile view
+def profile_view(request):
+    trainer = Trainer.objects.get(user_id=request.user.id)
+    context = {
+        "profile": trainer
+    }
+    return render(request, "pages/profile_page.html", context)
 
-# def trainer_exercises_list(request,trainerId):
-#     trainer = Trainer.objects.get(user__id = trainerId)
-#     exercises = Exercise.objects.filter(trainer=trainer).order_by("-id")
-#     categories = request.GET.getlist("category[]")
 
-#     if len(categories) > 0:
-#         exercises = exercises.filter(category__id__in=categories)
-   
-#     filter_template = render_to_string('ajax/trainer_exercise.html', {"data": exercises})
-#     return JsonResponse({"data": filter_template})
+# edit Trainer Profile!
+def trainer_edit_profile(request):
+    trainer = Trainer.objects.get(user_id=request.user.id)
+    form = EditTrainerProfileForm(instance=trainer)
+    if request.method == "POST":
+        form = EditTrainerProfileForm(request.POST, request.FILES, instance=trainer)
+        if form.is_valid():
+            trainer_user = form.save()
+            trainer_user.user = trainer.user
+            trainer_user.save()
+            return redirect("trainer-profile")
+    context = {
+        "form": form,
+    }
+    return render(request, 'pages/edit_profile.html', context)
+
+
 
 def trainer_exercises_list(request,trainerId):
     trainer = Trainer.objects.get(user__id = trainerId)
     exercises: list[Exercise] = list(Exercise.objects.filter(trainer = trainer))       
-
     context = {
         "exercises": exercises,
     }
-    return render(request, "trainer_exercise.html", context)
+    return render(request, "pages/trainer_exercise.html", context)
+
+
 
 def new_exercise(request):
     form = ExerciseForm()         
@@ -103,13 +114,13 @@ def new_exercise(request):
             exercise =form.save()
             exercise.trainer = request.user.trainer
             exercise.save()
-                # Where you want to go after a successful login
             return redirect("home")
-
     context = {
         "form": form,
     }
-    return render(request, "add_exercise.html", context)
+    return render(request, "pages/add_exercise.html", context)
+
+
 
 def assign_exercise(request,traineeId):
     trainee = Trainee.objects.get(user__id=traineeId)
@@ -122,38 +133,36 @@ def assign_exercise(request,traineeId):
                 child = form.save(commit=False)
                 child.trainee = trainee
                 child.save()
-                # Where you want to go after a successful login
             return redirect("home")
-
     context = {
         "forms": forms,
         "trainee":trainee
     }
-    return render(request, "assign_exercise.html", context)
+    return render(request, "pages/assign_exercise.html", context)
 
 
-# Subscription
-def trainer_subs_list(request,trainerId):
-    trainer = Trainer.objects.get(user__id = trainerId)
+
+########### Subscription ########### 
+def trainer_subs_list(request):
+    trainer = Trainer.objects.get(user__id = request.user.id)
     subs: list[Subscription] = list(Subscription.objects.filter(trainer = trainer))       
-
     context = {
         "subs": subs,
     }
-    return render(request, "trainer_subscriptions.html", context)
+    return render(request, "pages/trainer_subscriptions.html", context)
 
-# Subscripers 
-def subsripres_list(request,trainerId):
-    trainer = Trainer.objects.get(user__id = trainerId)
 
+# Subscribers 
+def subscribers_list(request):
+    trainer = Trainer.objects.get(user__id = request.user.id)
     subsItems: list[SubscriptionItem] = list(SubscriptionItem.objects.filter(plan__trainer = trainer))       
-    # subsribers: list[Trainee] = list(Trainee.objects.filter(trainer = trainer))       
-
     context = {
         "subsItems": subsItems,
     }
-    return render(request, "subscribers.html", context)
+    return render(request, "pages/subscribers.html", context)
 
+
+# create new subscription plan
 def subcription_create_view(request):
     form = TrainerSubscriptionForm()
     if request.method == "POST":
@@ -162,36 +171,35 @@ def subcription_create_view(request):
             plan=form.save(commit=False)
             plan.trainer = request.user.trainer
             plan.save()
-            return redirect(f'/subscriptions/{request.user.id}' )
+            return redirect("subscriptions")
     context = {
         "form": form,
     }
-    return render(request, 'add_subscribtion.html', context)
+    return render(request, 'pages/add_subscription.html', context)
 
-def subscription_update_view(request, subscription_id):
-    subscription = TrainerSubscriptionForm.objects.get(id=subscription_id)
+
+# update subscription plan
+def subscription_update_view(request):
+    subscription = Subscription.objects.get(trainer_id=request.user.id)
     form = TrainerSubscriptionForm(instance=subscription)
     if request.method == "POST":
         form = TrainerSubscriptionForm(request.POST, instance=subscription)
         if form.is_valid():
             form.save()
-            return redirect(f'/subscriptions/{request.user.id}' )
+            return redirect("subscriptions")
     context = {
-        "subscription": subscription,
         "form": form,
     }
-    return render(request, 'object_update.html', context)
+    return render(request, 'pages/update_sub.html', context)
 
 
-def subscription_delete_view(request, subId):
-    sub= Subscription.objects.get(id=subId)
+# delete subscription plan
+def subscription_delete_view(request):
+    sub= Subscription.objects.get(trainer_id=request.user.id)
     if sub.trainer == request.user.trainer:
         sub.delete()
+    return redirect("subscriptions")
+
+
+
     
-    return redirect(f'/subscriptions/{request.user.id}' )
-
-
-
-# 404 error redirection
-def error_view(request):
-    return render(request, '404.html')

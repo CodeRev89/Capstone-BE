@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Exercises
+{% endblock title %}
+
+{% block content %}
+<div class="w-100 container-fluid row p-5 h-100">
+  {% for exercise in exercises %}
+  <div class="col-3">
+    <div class="card indigo mb-4 w-100">
+      <img src={{exercise.image.url}} class="card-img-top" alt="..." style="object-fit: cover; height: 200px;">
+      <div class="card-body">
+        <h5 class="card-title fw-bold fs-5 mt-3">{{exercise.name}}</h5>
+        <p class="card-text mt-3">{{exercise.short_description}}</p>
+        <!-- edit button -->
+        <!-- work on the web view later -->
+        <a href="####" class="btn btn-warning px-5 py-2 mt-4">Edit</a>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+  <div class="col-3">
+    <div class="card indigo mb-4 w-100 p-5 card-link">
+      <a href="{% url 'add-exercise' %}">
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <i class="fa-solid fa-plus icon-large" style="color: rgb(67, 66, 140);"></i>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{%endblock content %}

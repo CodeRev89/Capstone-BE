@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% load static %}
+
+{% block title %}
+Edit Subscription
+{% endblock title %}
+
+
+{% block content %}
+<div class="bg-card p-5">
+    <form action="{% url 'update-subscription' %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" value="Update" class="btn btn-warning py-3 px-5 mt-4">
+    </form>
+</div>
+
+{%endblock content %}
