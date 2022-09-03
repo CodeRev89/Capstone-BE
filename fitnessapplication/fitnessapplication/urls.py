@@ -64,19 +64,23 @@ urlpatterns = [
 
     
     ### WEB ###
+    path("", web.home, name="home"),
+    # auth
     path("trainer-register/", web.registration_view,name="register-trainer"),
     path("trainer-login/", web.user_login,name="login-trainer"),
-    path("", web.home, name="home"),
     path('logout/', web.logout_view, name="logout"),
+    path("edit-profile/<int:trainerId>", web.trainer_edit_profile, name="edit-trainer-profile"),
+    # exercises
     path('add-exercise/', web.new_exercise, name="add-exercise"),
     path("assign-exercise/<int:traineeId>", web.assign_exercise, name="assign-exercise"),
     path("exercises/<int:trainerId>", web.trainer_exercises_list, name="exercises"),
+    # subs
     path("subscriptions/<int:trainerId>", web.trainer_subs_list, name="subscriptions"),
-    path("subscribers/<int:trainerId>", web.subsripres_list, name="subscribers"),
+    path("subscribers/<int:trainerId>", web.subscribers_list, name="subscribers"),
     path("add-subscription/", web.subcription_create_view, name="add-subscription"),
     path("delete-subscription/<int:subId>", web.subscription_delete_view, name="delete-subscription"),
     # error view
-    path("404/", web.error_view, name="error"),
+    path("forbidden/", web.handler403, name="forbidden"),
 ]
 
 

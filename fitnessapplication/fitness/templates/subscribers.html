@@ -1,23 +1,69 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
 {% load static %}
 {% block title %}
-  Subscriptions
+Subscriptions
 {% endblock title %}
-{% block content %} 
-{% for subsItem in subsItems%}
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
-        <p class="card-text">{{subsItem.trainee.user.username}}</p>
-      <h5 class="card-title">{{subsItem.plan.name}}</h5>
-      <p class="card-text">{{subsItem.plan.name}}</p>
-      <p class="card-text">{{subsItem.end_date}}</p>
-      <p class="card-text">{{subsItem.active}}</p>
-      <p class="card-text">{{subsItem.payment_status}}</p>
-      <p class="card-text">{{subsItem.auto_renew}}</p>
+
+
+{% block content %}
+<div class="container-fluid p-5 h-100">
+  <h1 class="fs-3 fw-bold mb-4 ms-3">Your Subscription Plans</h1>
+  {% for subsItem in subsItems %}
+  <div class="col-5">
+    <div class="card indigo mb-4 w-100">
+      <div class="card-body p-5">
+        <h5 class="card-title fw-bold fs-1 mt-3">{{subsItem.plan.name}}</h5>
+        <!-- trainee -->
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+          <p class="fw-semibold sub-p"><i class="fa-solid fa-user me-3"></i>To Trainee:</p>
+          <p class="card-text">{{subsItem.trainee.user.username}}</p>
+        </div>
+        <!-- end date -->
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+          <p class="fw-semibold sub-p"><i class="fa-solid fa-calendar-days me-3"></i>Ends On:</p>
+          <p class="card-text">{{subsItem.end_date}}</p>
+        </div>
+        <!-- payment -->
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+          <p class="fw-semibold sub-p"><i class="fa-solid fa-money-check me-3"></i>Payment Status:</p>
+          <p class="card-text">
+            {% if subsItem.payment_status == True %}
+            Paid
+            {% else %}
+            Not Paid
+            {% endif %}
+          </p>
+        </div>
+
+        <!-- active -->
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+          <p class="fw-semibold sub-p"><i class="fa-solid fa-gauge-high me-3"></i>Active:</p>
+          <p class="card-text">
+            {% if subsItem.active == True %}
+            Yes
+            {% else %}
+            No
+            {% endif %}
+          </p>
+        </div>
+
+        <!-- auto renew -->
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5 mb-5">
+          <p class="fw-semibold sub-p"><i class="fa-solid fa-rotate me-3"></i>Auto Renew:</p>
+          <p class="card-text">
+            {% if subsItem.active == True %}
+            On
+            {% else %}
+            Off
+            {% endif %}
+          </p>
+        </div>
+
+        <hr>
+        <a href="#" class="btn btn-warning px-5 py-2 mt-2">Edit</a>
+      </div>
     </div>
   </div>
-{%endfor%}
+  {% endfor %}
 
-{%endblock content %}
- 
+  {%endblock content %}

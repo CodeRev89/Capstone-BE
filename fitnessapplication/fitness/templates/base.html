@@ -22,13 +22,14 @@
     <header class="container-fluid indigo">
         <nav class="indigo w-100 d-flex justify-content-between align-items-center py-3 px-5">
             <ul class="d-flex align-items-center">
-                <li class="list-group me-5 fs-4 fw-bold text-uppercase"><a href="/">fitness</a></li>
+                <li class="list-group me-5 fs-4 fw-bold text-uppercase"><a class="logo" href="/">fitness</a></li>
                 <li class="list-group">Welcome to the Trainer Dashboard.</li>
             </ul>
-            {% if request.user.is_authenticated %}
+            {% if trainer %}
             <ul class="d-flex align-items-center">
-                <li class="list-group me-3">{{request.user.first_name}} {{request.user.last_name}}</li>
-                <img class="avatar" src="{{request.user.image.url}}" alt="avatar">
+                <li class="list-group me-3">{{trainer.user.first_name}} {{trainer.user.last_name}}</li>
+                <img class="avatar" src="{{trainer.image.url}}" alt="avatar">
+
             </ul>
             {% else %}
             <ul class="d-flex align-items-center">
@@ -45,7 +46,7 @@
 
     <!-- main -->
     <main class="container-fluid h-100">
-        {% if request.user.is_authenticated %}
+        {% if trainer %}
         <div class="row h-100">
             <!-- sidebar column -->
             <div class="col-2 indigo pb-4">
@@ -68,9 +69,10 @@
                             <p><i class="fa-solid fa-weight-hanging me-3 fs-5"></i></p>
                             <p>My Exercises</p>
                         </a>
-                        <a href="{% url 'add-exercise' %}" class="mb-3 btn btn-primary d-flex align-items-end">
-                            <p><i class="fa-solid fa-square-plus me-3 fs-5"></i></p>
-                            <p>Add Exercise</p>
+                        <a href="{% url 'subscribers' trainerId=request.user.id %}"
+                            class="mb-3 btn btn-primary d-flex align-items-end">
+                            <p><i class="fa-solid fa-circle-dollar-to-slot me-3 fs-5"></i></p>
+                            <p>Subscribers</p>
                         </a>
                     </div>
                     <!-- logout here -->
@@ -103,7 +105,7 @@
                     <!-- title of profile -->
                     <h2 class="fs-4 fw-semibold text-center mb-4 c-headings">My Profile
                         <span>
-                            <a href="#">
+                            <a href="{% url 'edit-trainer-profile' trainerId=request.user.id %}">
                                 <i class="ms-4 fa-solid fa-pen-to-square fs-4 c-headings"></i>
                             </a>
                         </span>
@@ -114,9 +116,8 @@
                         <div class="d-flex flex-column align-items-center">
                             <!-- avatar -->
                             <div class="avatar-container mb-4">
-                                <img class="cover"
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9Z9vjM-_Ww_rUHKOYFQ3brhBsKWniGSN7jembYtImHkPzHReyZ4zNBlPF550WjI8a_eE&usqp=CAU"
-                                    alt="avatar">
+                                <img class="cover" src="{{trainer.image.url}}" alt="avatar"
+                                    style="object-fit: cover; height: 100%;">
                             </div>
                             <!-- profile username -->
                             <div class="profile-user text-center">
@@ -132,17 +133,37 @@
                                 <!-- experience -->
                                 <div class="mt-2 pb-3 d-flex justify-content-between align-items-center">
                                     <p>Age: </p>
-                                    <p>25 years old</p>
+                                    <p>
+                                        {% if trainer.age %}
+                                        {{trainer.age}}
+                                        {% else %}
+                                        Empty
+                                        {% endif %}
+
+                                    </p>
                                 </div>
                                 <hr>
                                 <div class="pb-3 d-flex justify-content-between align-items-center">
                                     <p>Experience: </p>
-                                    <p>3 years</p>
+                                    <p>
+                                        {% if trainer.experience %}
+                                        {{trainer.experience}}
+                                        {% else %}
+                                        Empty
+                                        {% endif %}
+
+                                    </p>
                                 </div>
                                 <hr>
                                 <div class="pb-3 d-flex justify-content-between align-items-center">
                                     <p>Specialty: </p>
-                                    <p>Body Trainer</p>
+                                    <p>
+                                        {% if trainer.specialty %}
+                                        {{trainer.specialty}}
+                                        {% else %}
+                                        Empty
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <hr>
                                 <div class="mb-2 d-flex justify-content-between align-items-center">
@@ -159,8 +180,8 @@
                 </div>
             </div>
             <!-- end of profile column -->
-            {% elif request.user.is_authenticated %}
-            {% include '404.html' %}
+            {% elif request.user.is_trainer == False %}
+            {% include '403.html' %}
             {% else %}
             <div class="h-100 bg-content">
                 <div class="h-100 d-flex flex-column justify-content-center align-items-center">
