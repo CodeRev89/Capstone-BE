@@ -7,28 +7,37 @@ Exercises
 
 {% block content %}
 <div class="w-100 container-fluid row p-5 h-100">
+  <div class="content-heading d-flex justify-content-between align-items-center">
+    <h1 class="fs-3 fw-bold mb-4 ms-3">Your Exercises</h1>
+    <a href="{% url 'add-exercise' %}" class="btn btn-warning px-4 py-2 mb-4 fw-bold">Add New Exercise</a>
+  </div>
+
   {% for exercise in exercises %}
   <div class="col-3">
     <div class="card indigo mb-4 w-100">
       <img src={{exercise.image.url}} class="card-img-top" alt="..." style="object-fit: cover; height: 200px;">
       <div class="card-body">
-        <h5 class="card-title fw-bold fs-5 mt-3">{{exercise.name}}</h5>
-        <p class="card-text mt-3">{{exercise.short_description}}</p>
-        <!-- edit button -->
-        <!-- work on the web view later -->
-        <a href="####" class="btn btn-warning px-5 py-2 mt-4">Edit</a>
+        <h5 class="card-title fw-bold fs-4 mt-3">{{exercise.name}}</h5>
+        <div class="d-flex justify-content-between align-items-center">
+          <p class="mt-3 fw-bold">Category: </p>
+          <p class="mt-3">{{exercise.category.name}}</p>
+        </div>
+        <p class="mt-4 fw-bold">Description: </p>
+        <p class="card-text mt-2 mb-4">{{exercise.short_description}}</p>
+        <hr>
+        <!-- buttons -->
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="{% url 'edit-exercise' exercise.slug %}" class="btn btn-warning px-4 py-2">Edit</a>
+          <a href="{% url 'delete-exercise' exercise.slug %}" class="btn btn-danger px-4 py-2">Delete</a>
+        </div>
+
       </div>
     </div>
   </div>
-  {%endfor%}
-  <div class="col-3">
-    <div class="card indigo mb-4 w-100 p-5 card-link">
-      <a href="{% url 'add-exercise' %}">
-        <div class="card-body d-flex justify-content-center align-items-center">
-          <i class="fa-solid fa-plus icon-large" style="color: rgb(67, 66, 140);"></i>
-        </div>
-      </a>
-    </div>
+  {% empty %}
+  <div class="empty h-100 d-flex flex-column justify-content-center align-items-center">
+    <i class="fa-solid fa-ghost icon-large icon-large-color"></i>
+    <h1 class="fs-3 mt-4">Boo. Nothing to see here.</h1>
   </div>
-</div>
-{%endblock content %}
+  {%endfor%}
+  {%endblock content %}

@@ -56,12 +56,12 @@
                     <!-- navigation -->
                     <div class="d-flex flex-column align-items-stretch justify-content-center">
                         <p class="mb-5 p-3 text-center fs-4 fw-semibold text-uppercase">Sidebar</p>
-                        <a href="#" class="mb-3 btn btn-primary d-flex align-items-end">
+                        <a href="{% url 'home' %}" class="mb-3 btn btn-primary d-flex align-items-end">
                             <p><i class="fa-solid fa-house me-3 fs-5"></i></p>
                             <p>Home</p>
                         </a>
                         <!-- Trainer Profile -->
-                        <a href="trainer-profile" class="mb-3 btn btn-primary d-flex align-items-end">
+                        <a href="{% url 'trainer-profile' %}" class="mb-3 btn btn-primary d-flex align-items-end">
                             <p><i class="fa-solid fa-user me-3 fs-5"></i></p>
                             <p>My Profile</p>
                         </a>
@@ -69,14 +69,13 @@
                             <p><i class="fa-solid fa-users me-3 fs-5"></i></p>
                             <p>Users list</p>
                         </a>
-                        <a href="{% url 'exercises' trainerId=request.user.id %}"
-                            class="mb-3 btn btn-primary d-flex align-items-end">
+                        <a href="{% url 'exercises'%}" class="mb-3 btn btn-primary d-flex align-items-end">
                             <p><i class="fa-solid fa-weight-hanging me-3 fs-5"></i></p>
                             <p>My Exercises</p>
                         </a>
                         <a href="{% url 'subscriptions' %}" class="mb-3 btn btn-primary d-flex align-items-end">
                             <p><i class="fa-solid fa-circle-dollar-to-slot me-3 fs-5"></i></p>
-                            <p>Subscriptions</p>
+                            <p>Subscription Plan</p>
                         </a>
                     </div>
                     <!-- logout here -->

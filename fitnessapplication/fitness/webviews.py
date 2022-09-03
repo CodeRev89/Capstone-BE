@@ -95,9 +95,9 @@ def trainer_edit_profile(request):
     return render(request, 'pages/edit_profile.html', context)
 
 
-
-def trainer_exercises_list(request,trainerId):
-    trainer = Trainer.objects.get(user__id = trainerId)
+# list of workouts by the trainer
+def trainer_exercises_list(request):
+    trainer = Trainer.objects.get(user__id = request.user.id)
     exercises: list[Exercise] = list(Exercise.objects.filter(trainer = trainer))       
     context = {
         "exercises": exercises,
@@ -105,7 +105,7 @@ def trainer_exercises_list(request,trainerId):
     return render(request, "pages/trainer_exercise.html", context)
 
 
-
+# add new workout
 def new_exercise(request):
     form = ExerciseForm()         
     if request.method == "POST":
@@ -113,12 +113,38 @@ def new_exercise(request):
         if form.is_valid():
             exercise =form.save()
             exercise.trainer = request.user.trainer
+            print(f" I'm in new: {exercise.slug}")
             exercise.save()
-            return redirect("home")
+            return redirect("exercises")
     context = {
         "form": form,
     }
     return render(request, "pages/add_exercise.html", context)
+
+
+# edit workout
+def edit_exercise(request, slug):
+    exercise = Exercise.objects.get(slug=slug)
+    print(exercise.slug)
+    form = ExerciseForm(instance=exercise)
+    if request.method == "POST":
+        form = ExerciseForm(request.POST, request.FILES ,instance=exercise)
+        if form.is_valid():
+            form.save()
+            print(f" I'm in editing: {exercise.slug}")
+            return redirect("exercises")
+    context = {
+        "form": form,
+    }
+    return render(request, "pages/edit_exercise.html", context)
+
+
+
+def delete_exercise(request, slug):
+    exercise = Exercise.objects.get(slug=slug)
+    exercise.delete()
+    return redirect("exercises")
+    
 
 
 
