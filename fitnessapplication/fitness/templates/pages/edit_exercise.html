@@ -9,7 +9,7 @@ Edit Exercise
 
 {% block content %}
 <div class="bg-card p-5">
-    <form action="{% url 'edit-exercise' slug=exercise.slug %}" method="post" enctype="multipart/form-data">
+    <form action="{{exercise.get_absolute_url}}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
         <input type="submit" value="Edit" class="btn btn-warning py-3 px-5 mt-4">

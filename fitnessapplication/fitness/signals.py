@@ -11,11 +11,3 @@ def created_trainee_profile(created,instance, *args, **kwargs):
             Trainer.objects.create(user=instance)
         else:
             Trainee.objects.create(user=instance)
-
-
-
-@receiver(post_save, sender=Exercise)
-def slugify_exercise_name(created, sender, instance, **kwargs):
-    if created == True:
-        instance.slug = slugify(instance.name)
-        print(instance.slug)

@@ -1,4 +1,5 @@
 from django.utils.text import slugify
+from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -49,6 +50,7 @@ class Category(models.Model):
     def __str__(self):
         return F'{self.id} - {self.name}'
 
+
 class Exercise(models.Model):
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="exercises")   
     name= models.CharField(max_length=250, unique=True)
@@ -62,11 +64,18 @@ class Exercise(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super(Exercise, self).save(*args, **kwargs)
-        
+    
+    def get_absolute_url(self):
+        return reverse("edit-exercise", kwargs={"slug": self.slug})
+    
+    def get_delete_url(self):
+        return reverse("delete-exercise", kwargs={"slug": self.slug})
+    
     def __str__(self):
         return self.name
     def get_category(self):
         return self.category.name
+
 
 class ExerciseItem(models.Model):
     trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE, null=True,related_name="exercises")   

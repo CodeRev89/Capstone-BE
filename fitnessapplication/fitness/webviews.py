@@ -140,6 +140,14 @@ def edit_exercise(request, slug):
 
 
 
+def delete_exercise(request, slug):
+    exercise = Exercise.objects.get(slug=slug)
+    exercise.delete()
+    return redirect("exercises")
+    
+
+
+
 def assign_exercise(request,traineeId):
     trainee = Trainee.objects.get(user__id=traineeId)
     setsFormset = inlineformset_factory(model= ExerciseItem, parent_model=Trainee, form=ExerciseItemForm,extra=0)
