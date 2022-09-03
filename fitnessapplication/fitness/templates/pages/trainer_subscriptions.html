@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+Subscriptions
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid p-5 h-100">
+  <div class="content-heading d-flex justify-content-between align-items-center">
+    <h1 class="fs-3 fw-bold mb-4 ms-3">Your Subscription Plans</h1>
+    <a href="{% url 'add-subscription' %}" class="btn btn-warning px-4 py-2 mb-4 fw-bold">Add New Plan</a>
+  </div>
+
+  {% for sub in subs %}
+  <div class="col-5">
+    <div class="card indigo mb-4 w-100">
+      <div class="card-body p-5">
+        <h5 class="card-title fw-bold fs-1 mt-3">{{sub.name}}</h5>
+        <!-- Trainer -->
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+          <p class="fw-semibold sub-p"><i class="fa-solid fa-user me-3"></i>By Trainer:</p>
+          <p class="card-text">{{sub.trainer.user.first_name}} {{sub.trainer.user.last_name}}</p>
+        </div>
+        <!-- Price -->
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+          <p class="fw-semibold sub-p"><i class="fa-solid fa-money-bill-1-wave me-3"></i></i>Price:</p>
+          <p class="card-text">{{sub.price}} KD</p>
+        </div>
+        <!-- Duration -->
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5 mb-5">
+          <p class="fw-semibold sub-p"><i class="fa-solid fa-clock me-3"></i></i>Duration:</p>
+          <p class="card-text">
+            {{sub.duration}} days
+          </p>
+        </div>
+        <hr>
+        <!-- Description -->
+        <div class="d-flex flex-column justify-content-between mt-4 fs-5 mb-5">
+          <p class="fw-semibold sub-p">Description:</p>
+          <p class="card-text mt-3">
+            {{sub.describtion}}
+          </p>
+        </div>
+
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="{% url 'update-subscription' %}" class="btn btn-warning px-5 py-2 mt-2">Edit</a>
+          <a href="{% url 'delete-subscription' %}" class="btn btn-danger px-5 py-2 mt-2">Delete</a>
+        </div>
+
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty h-100 d-flex flex-column justify-content-center align-items-center">
+      <i class="fa-solid fa-ghost icon-large icon-large-color"></i>
+      <h1 class="fs-3 mt-4">Boo. Nothing to see here.</h1>
+    </div>
+    {% endfor %}
+  </div>
+
+
+
+  {%endblock content %}

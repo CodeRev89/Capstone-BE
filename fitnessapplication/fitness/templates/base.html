@@ -60,7 +60,12 @@
                             <p><i class="fa-solid fa-house me-3 fs-5"></i></p>
                             <p>Home</p>
                         </a>
-                        <a href="{% url 'home' %}" class="mb-3 btn btn-primary d-flex align-items-end">
+                        <!-- Trainer Profile -->
+                        <a href="trainer-profile" class="mb-3 btn btn-primary d-flex align-items-end">
+                            <p><i class="fa-solid fa-user me-3 fs-5"></i></p>
+                            <p>My Profile</p>
+                        </a>
+                        <a href="{% url 'subscribers' %}" class="mb-3 btn btn-primary d-flex align-items-end">
                             <p><i class="fa-solid fa-users me-3 fs-5"></i></p>
                             <p>Users list</p>
                         </a>
@@ -69,10 +74,9 @@
                             <p><i class="fa-solid fa-weight-hanging me-3 fs-5"></i></p>
                             <p>My Exercises</p>
                         </a>
-                        <a href="{% url 'subscribers' trainerId=request.user.id %}"
-                            class="mb-3 btn btn-primary d-flex align-items-end">
+                        <a href="{% url 'subscriptions' %}" class="mb-3 btn btn-primary d-flex align-items-end">
                             <p><i class="fa-solid fa-circle-dollar-to-slot me-3 fs-5"></i></p>
-                            <p>Subscribers</p>
+                            <p>Subscriptions</p>
                         </a>
                     </div>
                     <!-- logout here -->
@@ -93,95 +97,9 @@
                 {% endblock content %}
             </div>
 
-            <!-- 
-                ##############################
-                right sidebar for profile info 
-                ##############################
-            -->
 
-            <!-- profile details for trainer here if they're logged in -->
-            <div class="col-3 bg-content">
-                <div class="profile-container">
-                    <!-- title of profile -->
-                    <h2 class="fs-4 fw-semibold text-center mb-4 c-headings">My Profile
-                        <span>
-                            <a href="{% url 'edit-trainer-profile' trainerId=request.user.id %}">
-                                <i class="ms-4 fa-solid fa-pen-to-square fs-4 c-headings"></i>
-                            </a>
-                        </span>
-                    </h2>
-                    <hr class="mx-5">
-                    <!-- profile details -->
-                    <div class="profile-details mt-4">
-                        <div class="d-flex flex-column align-items-center">
-                            <!-- avatar -->
-                            <div class="avatar-container mb-4">
-                                <img class="cover" src="{{trainer.image.url}}" alt="avatar"
-                                    style="object-fit: cover; height: 100%;">
-                            </div>
-                            <!-- profile username -->
-                            <div class="profile-user text-center">
-                                <p class="mb-2 fs-5 fw-semibold">{{request.user.first_name}} {{request.user.last_name}}
-                                </p>
-                                <p class="fs-5 mb-3">@{{request.user.username}}</p>
-
-                            </div>
-
-                            <hr>
-                            <!-- profile details -->
-                            <div class="w-75 profile-info d-flex flex-column">
-                                <!-- experience -->
-                                <div class="mt-2 pb-3 d-flex justify-content-between align-items-center">
-                                    <p>Age: </p>
-                                    <p>
-                                        {% if trainer.age %}
-                                        {{trainer.age}}
-                                        {% else %}
-                                        Empty
-                                        {% endif %}
-
-                                    </p>
-                                </div>
-                                <hr>
-                                <div class="pb-3 d-flex justify-content-between align-items-center">
-                                    <p>Experience: </p>
-                                    <p>
-                                        {% if trainer.experience %}
-                                        {{trainer.experience}}
-                                        {% else %}
-                                        Empty
-                                        {% endif %}
-
-                                    </p>
-                                </div>
-                                <hr>
-                                <div class="pb-3 d-flex justify-content-between align-items-center">
-                                    <p>Specialty: </p>
-                                    <p>
-                                        {% if trainer.specialty %}
-                                        {{trainer.specialty}}
-                                        {% else %}
-                                        Empty
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <hr>
-                                <div class="mb-2 d-flex justify-content-between align-items-center">
-                                    <p>Ratings: </p>
-                                    <p><i class="fa-solid fa-star fs-6 text-warning"></i><i
-                                            class="fa-solid fa-star fs-6 text-warning"></i><i
-                                            class="fa-solid fa-star fs-6 text-warning"></i><i
-                                            class="fa-solid fa-star fs-6 text-warning"></i><i
-                                            class="fa-solid fa-star fs-6"></i> 4.65</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end of profile column -->
             {% elif request.user.is_trainer == False %}
-            {% include '403.html' %}
+            {% include 'pages/403.html' %}
             {% else %}
             <div class="h-100 bg-content">
                 <div class="h-100 d-flex flex-column justify-content-center align-items-center">
@@ -206,8 +124,8 @@
                 </div>
             </div>
 
-            {% include 'snippets/login.html' %}
-            {% include 'snippets/register.html' %}
+            {% include 'modals/login.html' %}
+            {% include 'modals/register.html' %}
             {% endif %}
         </div>
     </main>

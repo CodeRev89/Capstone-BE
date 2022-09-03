@@ -69,16 +69,19 @@ urlpatterns = [
     path("trainer-register/", web.registration_view,name="register-trainer"),
     path("trainer-login/", web.user_login,name="login-trainer"),
     path('logout/', web.logout_view, name="logout"),
-    path("edit-profile/<int:trainerId>", web.trainer_edit_profile, name="edit-trainer-profile"),
+    # profile
+    path("trainer-profile/", web.profile_view, name="trainer-profile"),
+    path("edit-profile/", web.trainer_edit_profile, name="edit-trainer-profile"),
     # exercises
     path('add-exercise/', web.new_exercise, name="add-exercise"),
     path("assign-exercise/<int:traineeId>", web.assign_exercise, name="assign-exercise"),
     path("exercises/<int:trainerId>", web.trainer_exercises_list, name="exercises"),
     # subs
-    path("subscriptions/<int:trainerId>", web.trainer_subs_list, name="subscriptions"),
-    path("subscribers/<int:trainerId>", web.subscribers_list, name="subscribers"),
+    path("subscriptions/", web.trainer_subs_list, name="subscriptions"),
+    path("subscribers/", web.subscribers_list, name="subscribers"),
     path("add-subscription/", web.subcription_create_view, name="add-subscription"),
-    path("delete-subscription/<int:subId>", web.subscription_delete_view, name="delete-subscription"),
+    path("update-subscription/", web.subscription_update_view, name="update-subscription"),
+    path("delete-subscription/", web.subscription_delete_view, name="delete-subscription"),
     # error view
     path("forbidden/", web.handler403, name="forbidden"),
 ]

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+Subscriptions
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid p-5 h-100">
+
+  <div class="row content-heading d-flex justify-content-between align-items-center">
+    <h1 class="col fs-3 fw-bold mb-4 ms-3">Active Users</h1>
+
+  </div>
+  <div class="row">
+    {% for sub in subsItems %}
+    <div class="col-4">
+      <div class="card indigo mb-4 w-100">
+        <div class="card-body p-5">
+          <h5 class="card-title fw-bold fs-1 mt-3 mb-3">{{sub.plan.name}}</h5>
+          <hr>
+          <!-- trainee -->
+          <div class="d-flex justify-content-between align-items-center mt-5 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-user me-3"></i>To Trainee:</p>
+            <p class="card-text">{{sub.trainee.user.first_name}} {{sub.trainee.user.last_name}}</p>
+          </div>
+          <!-- start date -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-calendar-days me-3"></i>Starts On:</p>
+            <p class="card-text">{{sub.start_date}}</p>
+          </div>
+          <!-- end date -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-calendar-days me-3"></i>Ends On:</p>
+            <p class="card-text">{{sub.end_date}}</p>
+          </div>
+          <!-- payment -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-money-check me-3"></i>Payment Status:</p>
+            <p class="card-text">
+              {% if sub.payment_status == True %}
+              Paid
+              {% else %}
+              Not Paid
+              {% endif %}
+            </p>
+          </div>
+          <!-- active -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-gauge-high me-3"></i>Active:</p>
+            <p class="card-text">
+              {% if sub.active == True %}
+              Yes
+              {% else %}
+              No
+              {% endif %}
+            </p>
+          </div>
+
+          <!-- auto renew -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5 ">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-rotate me-3"></i>Auto Renew:</p>
+            <p class="card-text">
+              {% if sub.active == True %}
+              On
+              {% else %}
+              Off
+              {% endif %}
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty h-100 d-flex flex-column justify-content-center align-items-center">
+      <i class="fa-solid fa-ghost icon-large icon-large-color"></i>
+      <h1 class="fs-3 mt-4">Boo. Nothing to see here.</h1>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{%endblock content %}
