@@ -97,14 +97,21 @@ body {
 .icon-large {
    font-size: 10em; 
 }
+.icon-large-color {
+    color: rgb(72, 79, 145);
+}
 
+a.logo:hover {
+    color: rgb(129 140 248);
+}
 
 /* navbar avatar */
 .avatar {
     width: 50px;
-    height: 50px;
+    aspect-ratio: 1;
     border-radius: 50%;
 }
+
 
 /* background for content column */
 .bg-content {
@@ -154,7 +161,6 @@ body {
 
 /* avatar in profile card */
 .cover {
-    width: 100%;
     object-fit: cover;
     overflow: hidden;
     border-radius: 0.5em;
@@ -167,6 +173,18 @@ body {
 .link-nav:hover {
     color: rgb(152, 144, 242);
 }
+
+
+/* card link in exercise list */
+.card-link:hover {
+    background-color: rgb(20, 19, 61);
+}
+
+/* subheadings for subscription plan */
+.sub-p {
+    color: rgb(191, 186, 255);
+}
+
 
 /* overriding bootstrap classes */
 .btn-primary {
