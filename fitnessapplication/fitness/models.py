@@ -88,6 +88,8 @@ class ExerciseItem(models.Model):
 
     def __str__(self):
         return self.exercise.name
+    def get_time(self):
+        return self.time.strftime("%M")
 
 class Subscription(models.Model):
     name =models.CharField(max_length=250) 
@@ -114,6 +116,12 @@ class SubscriptionItem(models.Model):
 
     def __str__(self):
         return f'{self.trainee.user.username} - {self.plan.name} '
+    
+    def get_trainer(self):
+        return f"{self.plan.trainer.user.first_name} {self.plan.trainer.user.last_name}"
+    def get_price(self):
+         return self.plan.price
+
 
 
 
