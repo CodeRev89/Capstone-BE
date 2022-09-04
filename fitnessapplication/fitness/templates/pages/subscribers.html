@@ -70,16 +70,17 @@ Subscriptions
               {% endif %}
             </p>
           </div>
-
         </div>
       </div>
     </div>
-    {% empty %}
-    <div class="empty h-100 d-flex flex-column justify-content-center align-items-center">
+  </div>
+  {% empty %}
+  <div class="h-100">
+    <div class="h-100 d-flex flex-column justify-content-center align-items-center">
       <i class="fa-solid fa-ghost icon-large icon-large-color"></i>
       <h1 class="fs-3 mt-4">Boo. Nothing to see here.</h1>
     </div>
+  </div> 
     {% endfor %}
-  </div>
 </div>
 {%endblock content %}

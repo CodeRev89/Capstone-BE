@@ -23,10 +23,7 @@ class Trainee(models.Model):
     weight=models.IntegerField(null=True,default=70)
     blood_type= models.CharField(max_length=250, null=True)
     image=models.ImageField(upload_to="trainees/",default="https://t4.ftcdn.net/jpg/00/64/67/63/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg")
-
-    # testing branch issue
-
-    
+  
     def __str__(self):
         return F'{self.user.id} - {self.user.username}'
     
@@ -43,6 +40,8 @@ class Trainer(models.Model):
     
     def __str__(self):
         return F'{self.user.id} - {self.user.username}'
+
+
 
 class Category(models.Model):
     name= models.CharField(max_length=250)
@@ -77,6 +76,7 @@ class Exercise(models.Model):
         return self.category.name
 
 
+
 class ExerciseItem(models.Model):
     trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE, null=True,related_name="exercises")   
     exercise= models.ForeignKey(Exercise, on_delete=models.CASCADE, null=True,related_name="items") 
@@ -89,11 +89,12 @@ class ExerciseItem(models.Model):
     def __str__(self):
         return self.exercise.name
 
+
+
 class Subscription(models.Model):
     name =models.CharField(max_length=250) 
     price =models.IntegerField(blank=False) 
     describtion =models.CharField(max_length=250)
-    # trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True,related_name="subs")  
     trainer = models.OneToOneField(
         Trainer, on_delete=models.CASCADE, primary_key=True) # primary_ke
     duration = models.IntegerField(blank=False) 
