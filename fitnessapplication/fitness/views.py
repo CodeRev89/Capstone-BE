@@ -1,5 +1,6 @@
 from calendar import monthrange
 from datetime import datetime, date,timedelta
+from numpy import double
 import pandas
 from unicodedata import category
 from rest_framework.response import Response
@@ -78,7 +79,7 @@ class TrainerDetailView(RetrieveAPIView):
     
 
 # all subsc
-class TrainerSubscriptionListView(ListAPIView):
+class SubscriptionListView(ListAPIView):
     queryset = Subscription.objects.all()
     serializer_class = TrainerSubscriptionListSerializer
 
@@ -103,6 +104,14 @@ class UpdateSubscribeView(RetrieveUpdateAPIView):
     lookup_field = 'id'
     lookup_url_kwarg = 'plan_id'
     permission_classes = [IsOwner,]
+
+class ReSubscribeView(RetrieveUpdateAPIView):
+    queryset = SubscriptionItem.objects.all()
+    serializer_class = SubscribeSerilizer
+    lookup_field = 'id'
+    lookup_url_kwarg = 'plan_id'
+    permission_classes = [IsOwner,]
+    
 
 class MyPlansView(ListAPIView):
     serializer_class = SubscribeSerilizer
@@ -145,7 +154,17 @@ class MonthlyTraineePerformance(APIView):
         # end_date = plan.end_date
         # days = pandas.date_range(start_date,end_date,freq='d')
         num_days = monthrange(year, month)
-        days = [date(year, month, day) for day in range(1, num_days[1]+1)]
+        today = datetime.today().day
+        # range = range(1, num_days[1]+1)
+        nums =(today-6,today)
+        days =[]
+        if today <=7:
+            days = [date(year, month, day) for day in range(1, 8)]
+        elif num_days[1]-6<=today:
+            days = [date(year, month, day) for day in range(num_days[1]-6, num_days[1]+1)]
+        else:
+            days = [date(year, month, day) for day in range(today-6, nums[1]+1)]
+
         final=[]
         for day in days:
             done_exercises = ExerciseItem.objects.filter(trainee = trainee, done=True,date = day)
@@ -163,8 +182,8 @@ class MonthlyTraineePerformance(APIView):
                 except:
                     exerciseCalories = 10 * 3 * 3.5 * 70/200
                 active_calories = active_calories + exerciseCalories 
-                calories = calories +active_calories
-            data = {"date":day,"done":len(done_exercises),"all":len(all_exercises),"total_calories":calories,"active_calories":active_calories}
+                calories = calories + active_calories
+            data = {"date":day,"done":len(done_exercises),"all":len(all_exercises),"total_calories":double(calories),"active_calories":double(active_calories)}
             final.append(data)
         return response.Response(final,status=status.HTTP_200_OK)
 

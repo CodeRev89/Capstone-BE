@@ -34,15 +34,16 @@ urlpatterns = [
     path('token-refresh/', TokenRefreshView.as_view(), name='token-refresh'),
 
     #Profile
-    path("my-profile/", views.MyProfileAPIView.as_view(), name="login-trainee"), # Edit and View My profile
-    path("trainee/<int:trainee_id>", views.TraineeProfileAPIView.as_view(), name="login-trainee"),
+    path("my-profile/", views.MyProfileAPIView.as_view(), name="my-profile"), # Edit and View My profile
+    path("trainee/<int:trainee_id>", views.TraineeProfileAPIView.as_view(), name="trainee"),
 
     #Trainers
     path('trainer-list/', views.TrainerListView.as_view(), name='trainer-list'),
     path('trainer-detail/<int:trainer_id>/', views.TrainerDetailView.as_view(), name='trainer-detail'),
 
     #Trainers Subscriptions
-    path('trainer-subcription-list/<int:trainer_id>/', views.TrainerSubscriptionListView.as_view(), name='subs-list'),
+    path('trainer-subcription-list/<int:trainer_id>/', views.TrainerSubscriptionListView.as_view(), name='trainer-subs-list'),
+    path('subcriptions/', views.SubscriptionListView.as_view(), name='subs-list'),
 
     #Exercises Items
     path('exercise/<int:exercise_id>', views.ExerciseItemUpdateView.as_view(), name =' trainee-exersize'),
@@ -52,7 +53,7 @@ urlpatterns = [
     #Subscribtions
     path('my-plans/', views.MyPlansView.as_view(), name =' my-plans'),
     path('subscribe', views.SubscribeView.as_view(), name =' subscribe'),
-    path('update/plan/<int:plan_id>', views.UpdateSubscribeView.as_view(), name =' renew'),
+    path('update/plan/<int:plan_id>', views.ReSubscribeView.as_view(), name =' renew'),
 
     #user Performance
     path('performace', views.TraineePerformance.as_view(), name ='performance'),
