@@ -74,7 +74,7 @@ class Exercise(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name="exercises")  
     image=models.ImageField(upload_to="exercises/",default="static/exercise.png")
     video = models.URLField(max_length=250, null=True, blank=True)
-    slug = models.SlugField(max_length=300, unique=True, blank=True)
+    slug = models.SlugField(max_length=300, unique=True, blank=True, null=True)
     
     def save(self, *args, **kwargs):
         if not self.slug:

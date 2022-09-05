@@ -1,6 +1,5 @@
 from calendar import monthrange
 from datetime import datetime, date
-from numpy import double
 from rest_framework.views import APIView
 from rest_framework import filters,response,status
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,RetrieveUpdateAPIView
