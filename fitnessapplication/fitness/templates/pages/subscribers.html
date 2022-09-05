@@ -14,7 +14,7 @@ Subscriptions
     <h1 class="col fs-3 fw-bold mb-4 ms-3">Active Users</h1>
 
   </div>
-  <!-- <div class="row"> -->
+  <div class="row">
   {% for sub in subsItems %}
   <div class="col-4">
     <div class="card indigo mb-4 w-100">
@@ -86,7 +86,6 @@ Subscriptions
       </div>
     </div>
   </div>
-</div>
 {% empty %}
 <div class="h-100">
   <div class="h-100 d-flex flex-column justify-content-center align-items-center">
@@ -95,5 +94,5 @@ Subscriptions
   </div>
 </div>
 {% endfor %}
-<!-- </div> -->
+</div>
 {%endblock content %}

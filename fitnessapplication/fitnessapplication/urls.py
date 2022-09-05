@@ -19,7 +19,6 @@ from fitness import views
 from fitness import webviews as web
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenRefreshView
-
 from django.conf import settings
 
 
@@ -76,7 +75,7 @@ urlpatterns = [
     path('add-exercise/', web.new_exercise, name="add-exercise"),
     path("assign-exercise/<int:traineeId>", web.assign_exercise, name="assign-exercise"),
     path("exercises/", web.trainer_exercises_list, name="exercises"),
-    path("<slug:slug>", web.edit_exercise, name="edit-exercise"),
+    path("edit-exercise/<slug:slug>/", web.edit_exercise, name="edit-exercise"),
     path("del/<slug:slug>", web.delete_exercise, name="delete-exercise"),
     # subs
     path("subscriptions/", web.trainer_subs_list, name="subscriptions"),

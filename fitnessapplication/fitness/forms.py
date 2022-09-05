@@ -23,6 +23,14 @@ class ExerciseForm(forms.ModelForm):
         model = Exercise
         fields = ["name", "short_description", "category", "image", "video"]
 
+        def __init__(self, *args, **kwargs):
+            super(ExerciseForm, self)
+            self.fields['name'].widget.attrs.update({'class': 'input-group', 'label': self.kwargs["name"]})
+            self.fields['short_description'].widget.attrs.update({'class': 'input-group'})
+            self.fields['category'].widget.attrs.update({'class': 'input-group'})
+            self.fields['image'].widget.attrs.update({'class': 'input-group'})
+            self.fields['video'].widget.attrs.update({'class': 'input-group'})
+
 
 class ExerciseItemForm(forms.ModelForm):
     class Meta:

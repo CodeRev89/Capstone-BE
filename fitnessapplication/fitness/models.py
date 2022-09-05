@@ -24,7 +24,8 @@ class Trainee(models.Model):
         ("A-", "A-"),
         ("B+", "B+"),
         ("B-", "B-"),
-        ("AB+", "AB-"),
+        ("AB+", "AB+"),
+        ("AB-", "AB-"),
     ]
     
     user= models.OneToOneField(
@@ -35,7 +36,7 @@ class Trainee(models.Model):
     weight= models.IntegerField(null=True,default=70)
     blood_type= models.CharField(max_length=250, choices=blood_choices, default="O+")
     bio= models.TextField(default="")
-    image= models.ImageField(upload_to="trainees/", null=True)
+    image= models.ImageField(upload_to="trainees/", null=True, blank=True)
   
     def __str__(self):
         return F'{self.user.id} - {self.user.username}'
@@ -49,7 +50,7 @@ class Trainer(models.Model):
     experience= models.IntegerField(blank=True, null=True)
     specialty= models.CharField(max_length=250)
     bio= models.TextField(default="")
-    image= models.ImageField(upload_to="trainers/", null=True)
+    image= models.ImageField(upload_to="trainers/", null=True, blank=True)
 
     
     def __str__(self):
@@ -72,7 +73,7 @@ class Exercise(models.Model):
     short_description= models.CharField(max_length=500)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name="exercises")  
     image=models.ImageField(upload_to="exercises/",default="static/exercise.png")
-    video = models.URLField(max_length=250, null=True)
+    video = models.URLField(max_length=250, null=True, blank=True)
     slug = models.SlugField(max_length=300, unique=True, blank=True)
     
     def save(self, *args, **kwargs):
