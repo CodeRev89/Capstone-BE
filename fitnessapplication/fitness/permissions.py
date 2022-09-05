@@ -5,6 +5,9 @@ class IsOwner(BasePermission):
     
     def has_object_permission(self, request, view, obj):
         return obj.trainee.user == request.user
+    
+
+
 class IsProfileOwner(BasePermission):
     message = "You do not have permission to preform this action"
     

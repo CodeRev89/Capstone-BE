@@ -28,8 +28,11 @@
             {% if trainer %}
             <ul class="d-flex align-items-center">
                 <li class="list-group me-3">{{trainer.user.first_name}} {{trainer.user.last_name}}</li>
+                {% if trainer.image %}
                 <img class="avatar" src="{{trainer.image.url}}" alt="avatar">
-
+                {% else %}
+                <img class="avatar" src="{% static 'images/profile-image.png' %}" alt="avatar">
+                {% endif %}
             </ul>
             {% else %}
             <ul class="d-flex align-items-center">
@@ -49,41 +52,41 @@
         {% if trainer %}
         <div class="row h-100">
             <!-- sidebar column -->
-            <div class="col-2 indigo pb-4">
+            <div class="col-2 indigo pb-5">
                 <hr>
                 <!-- sidebar wrapper -->
                 <div class="h-100 d-flex px-3 pb-3 flex-column align-items-stretch justify-content-between">
                     <!-- navigation -->
                     <div class="d-flex flex-column align-items-stretch justify-content-center">
-                        <p class="mb-5 p-3 text-center fs-4 fw-semibold text-uppercase">Sidebar</p>
+                        <p class="mb-4 mt-2  text-center fs-5 fw-semibold">Navigation</p>
                         <a href="{% url 'home' %}" class="mb-3 btn btn-primary d-flex align-items-end">
-                            <p><i class="fa-solid fa-house me-3 fs-5"></i></p>
+                            <p><i class="fa-solid fa-house me-3 fs-6"></i></p>
                             <p>Home</p>
                         </a>
                         <!-- Trainer Profile -->
                         <a href="{% url 'trainer-profile' %}" class="mb-3 btn btn-primary d-flex align-items-end">
-                            <p><i class="fa-solid fa-user me-3 fs-5"></i></p>
+                            <p><i class="fa-solid fa-user me-3 fs-6"></i></p>
                             <p>My Profile</p>
                         </a>
                         <a href="{% url 'subscribers' %}" class="mb-3 btn btn-primary d-flex align-items-end">
-                            <p><i class="fa-solid fa-users me-3 fs-5"></i></p>
+                            <p><i class="fa-solid fa-users me-3 fs-6"></i></p>
                             <p>Users list</p>
                         </a>
                         <a href="{% url 'exercises'%}" class="mb-3 btn btn-primary d-flex align-items-end">
-                            <p><i class="fa-solid fa-weight-hanging me-3 fs-5"></i></p>
+                            <p><i class="fa-solid fa-weight-hanging me-3 fs-6"></i></p>
                             <p>My Exercises</p>
                         </a>
                         <a href="{% url 'subscriptions' %}" class="mb-3 btn btn-primary d-flex align-items-end">
-                            <p><i class="fa-solid fa-circle-dollar-to-slot me-3 fs-5"></i></p>
-                            <p>Subscription Plan</p>
+                            <p><i class="fa-solid fa-circle-dollar-to-slot me-3 fs-6"></i></p>
+                            <p>Subscription</p>
                         </a>
                     </div>
                     <!-- logout here -->
                     <div class="d-flex flex-column align-items-stretch justify-content-center">
                         <a class="btn btn-primary d-flex align-items-end justify-content-between override-p"
                             href="{% url 'logout' %}">
-                            <p class="fs-5">Logout</p>
-                            <p><i class="fa-solid fa-right-from-bracket fs-5"></i></p>
+                            <p class="">Logout</p>
+                            <p><i class="fa-solid fa-right-from-bracket"></i></p>
                         </a>
                     </div>
                 </div>
@@ -92,7 +95,6 @@
             <!-- content column -->
             <div class="col bg-content">
                 {% block content %}
-
                 {% endblock content %}
             </div>
 

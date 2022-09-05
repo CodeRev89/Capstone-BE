@@ -11,8 +11,13 @@ Edit Exercise
 <div class="bg-card p-5">
     <form action="{{exercise.get_absolute_url}}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
-        <input type="submit" value="Edit" class="btn btn-warning py-3 px-5 mt-4">
+        <!-- <div class="row"> -->
+            {% for field in form %}
+            <label for="{{field.label}}">{{field.label}}:</label>
+            <input id="{{field.label}}" >{{ field }}
+            {% endfor %}
+        <!-- </div> -->
+        <input type="submit" value="Save" class="btn btn-warning py-3 px-5 mt-4">
     </form>
 </div>
 

@@ -8,8 +8,8 @@ My Profile
 {% endblock title %}
 
 {% block content %}
-<!-- profile details for trainer here if they're logged in -->
-<div class="col-4 bg-content">
+
+<div class="col bg-content">
     <div class="profile-container">
         <!-- title of profile -->
         <h2 class="fs-4 fw-semibold text-center mb-4 c-headings">My Profile
@@ -24,19 +24,22 @@ My Profile
         <div class="profile-details mt-4">
             <div class="d-flex flex-column align-items-center">
                 <!-- avatar -->
-                <div class="avatar-container mb-4">
-                    <img class="cover" src="{{trainer.image.url}}" alt="avatar"
-                        style="object-fit: cover; height: 100%;">
+                <div class="mb-4">
+                    {% if trainer.image %}
+                    <img class="cover" src="{{trainer.image.url}}">
+                    {% else %}
+                    <img class="cover" src="{% static 'images/profile-image.png' %}">
+                    {% endif %}
                 </div>
+
                 <!-- profile username -->
                 <div class="profile-user text-center">
-                    <p class="mb-2 fs-5 fw-semibold">{{request.user.first_name}} {{request.user.last_name}}
-                    </p>
+                    <p class="mb-2 fs-5 fw-semibold">{{request.user.first_name}} {{request.user.last_name}}</p>
                     <p class="fs-5 mb-3">@{{request.user.username}}</p>
-
                 </div>
 
                 <hr>
+
                 <!-- profile details -->
                 <div class="w-75 profile-info d-flex flex-column">
                     <!-- experience -->
@@ -44,26 +47,28 @@ My Profile
                         <p>Age: </p>
                         <p>
                             {% if trainer.age %}
-                            {{trainer.age}}
+                            {{trainer.age}} years old
                             {% else %}
                             Empty
                             {% endif %}
-
                         </p>
                     </div>
+
                     <hr>
+
                     <div class="pb-3 d-flex justify-content-between align-items-center">
                         <p>Experience: </p>
                         <p>
                             {% if trainer.experience %}
-                            {{trainer.experience}}
+                            {{trainer.experience}} years
                             {% else %}
                             Empty
                             {% endif %}
-
                         </p>
                     </div>
+
                     <hr>
+
                     <div class="pb-3 d-flex justify-content-between align-items-center">
                         <p>Specialty: </p>
                         <p>
@@ -74,7 +79,9 @@ My Profile
                             {% endif %}
                         </p>
                     </div>
+
                     <hr>
+
                     <div class="mb-2 d-flex justify-content-between align-items-center">
                         <p>Ratings: </p>
                         <p><i class="fa-solid fa-star fs-6 text-warning"></i><i
@@ -83,6 +90,7 @@ My Profile
                                 class="fa-solid fa-star fs-6 text-warning"></i><i class="fa-solid fa-star fs-6"></i>
                             4.65</p>
                     </div>
+
                 </div>
             </div>
         </div>
