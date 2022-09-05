@@ -155,8 +155,8 @@ a.logo:hover {
 
 /* avatar in profile card */
 .cover {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 150px;
+    max-height: 150px;
     border-radius: 0.5em;
 }
 
@@ -178,6 +178,23 @@ a.logo:hover {
 .sub-p {
     color: rgb(191, 186, 255);
 }
+
+/* user details card in subscribers */
+.on-hover {
+    transition: 0.5s;
+}
+.on-hover:hover {
+    color: white;
+    background-color: rgb(40, 39, 103);
+}
+
+.container-border {
+    border-radius: 10px;
+    border: solid;
+    border-width: 5px;
+    border-color: rgb(40, 39, 103);
+}
+
 
 
 /* overriding bootstrap classes */
