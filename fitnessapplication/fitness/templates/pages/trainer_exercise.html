@@ -15,7 +15,13 @@ Exercises
   {% for exercise in exercises %}
   <div class="col-3">
     <div class="card indigo mb-4 w-100">
-      <img src={{exercise.image.url}} class="card-img-top" alt="..." style="object-fit: cover; height: 200px;">
+
+      {% if exercise.image %}
+      <img class="card-img-top" src="{{exercise.image.url}}" alt="avatar" style="object-fit: cover; height: 200px;">
+      {% else %}
+      <img class="avatar" src="{% static 'images/exercise.png' %}" alt="avatar">
+      {% endif %}
+
       <div class="card-body">
         <h5 class="card-title fw-bold fs-4 mt-3">{{exercise.name}}</h5>
         <div class="d-flex justify-content-between align-items-center">

@@ -84,6 +84,9 @@ urlpatterns = [
     path("add-subscription/", web.subcription_create_view, name="add-subscription"),
     path("update-subscription/", web.subscription_update_view, name="update-subscription"),
     path("delete-subscription/", web.subscription_delete_view, name="delete-subscription"),
+    
+    # trainee details view
+    path("trainee-details/<int:trainee_id>/", web.trainee_details, name="trainee-details"),
     # error view
     path("forbidden/", web.handler403, name="forbidden"),
 ]

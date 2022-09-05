@@ -4,7 +4,7 @@ from .forms import TrainerLogin, TrainerRegister
 def processor(request):
     register_form = TrainerRegister()
     login_form = TrainerLogin()
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_trainer:
         trainer = Trainer.objects.get(user_id=request.user)
         return {
            'register': register_form,

@@ -64,9 +64,11 @@ def user_login(request):
     return render(request, "modals/login.html", context)
 
 
+
 def logout_view(request):
     logout(request)
     return redirect("home")
+
 
 
 # profile view
@@ -76,6 +78,7 @@ def profile_view(request):
         "profile": trainer
     }
     return render(request, "pages/profile_page.html", context)
+
 
 
 # edit Trainer Profile!
@@ -95,6 +98,7 @@ def trainer_edit_profile(request):
     return render(request, 'pages/edit_profile.html', context)
 
 
+
 # list of workouts by the trainer
 def trainer_exercises_list(request):
     trainer = Trainer.objects.get(user__id = request.user.id)
@@ -103,6 +107,7 @@ def trainer_exercises_list(request):
         "exercises": exercises,
     }
     return render(request, "pages/trainer_exercise.html", context)
+
 
 
 # add new workout
@@ -120,6 +125,7 @@ def new_exercise(request):
         "form": form,
     }
     return render(request, "pages/add_exercise.html", context)
+
 
 
 # edit workout
@@ -147,7 +153,6 @@ def delete_exercise(request, slug):
     
 
 
-
 def assign_exercise(request,traineeId):
     trainee = Trainee.objects.get(user__id=traineeId)
     setsFormset = inlineformset_factory(model= ExerciseItem, parent_model=Trainee, form=ExerciseItemForm,extra=0)
@@ -168,6 +173,7 @@ def assign_exercise(request,traineeId):
 
 
 
+
 ########### Subscription ########### 
 def trainer_subs_list(request):
     trainer = Trainer.objects.get(user__id = request.user.id)
@@ -178,6 +184,7 @@ def trainer_subs_list(request):
     return render(request, "pages/trainer_subscriptions.html", context)
 
 
+
 # Subscribers 
 def subscribers_list(request):
     trainer = Trainer.objects.get(user__id = request.user.id)
@@ -186,6 +193,7 @@ def subscribers_list(request):
         "subsItems": subsItems,
     }
     return render(request, "pages/subscribers.html", context)
+
 
 
 # create new subscription plan
@@ -204,6 +212,7 @@ def subcription_create_view(request):
     return render(request, 'pages/add_subscription.html', context)
 
 
+
 # update subscription plan
 def subscription_update_view(request):
     subscription = Subscription.objects.get(trainer_id=request.user.id)
@@ -219,6 +228,7 @@ def subscription_update_view(request):
     return render(request, 'pages/update_sub.html', context)
 
 
+
 # delete subscription plan
 def subscription_delete_view(request):
     sub= Subscription.objects.get(trainer_id=request.user.id)
@@ -228,4 +238,12 @@ def subscription_delete_view(request):
 
 
 
-    
+# trainee profile and details 
+def trainee_details(request, trainee_id):
+    trainee = Trainee.objects.get(user_id=trainee_id)
+    sub_item = SubscriptionItem.objects.get(trainee_id=trainee_id)
+    context = {
+        "trainee": trainee,
+        "sub": sub_item,
+    }
+    return render(request, "pages/trainee_details.html", context)

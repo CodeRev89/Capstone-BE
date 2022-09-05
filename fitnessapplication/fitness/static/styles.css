@@ -107,7 +107,8 @@ a.logo:hover {
 
 /* navbar avatar */
 .avatar {
-    width: 50px;
+    max-width: 50px;
+    max-height: 50px;
     aspect-ratio: 1;
     border-radius: 50%;
 }
@@ -151,18 +152,11 @@ a.logo:hover {
 }
 
 
-/* avatar in profile card container */
-.avatar-container {
-    width: 150px;
-    height: 150px;
-    border-radius: 0.5em;
-    background-color: #fff;
-}
 
 /* avatar in profile card */
 .cover {
-    object-fit: cover;
-    overflow: hidden;
+    max-width: 200px;
+    max-height: 200px;
     border-radius: 0.5em;
 }
 

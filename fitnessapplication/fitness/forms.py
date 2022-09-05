@@ -1,6 +1,4 @@
 from django import forms
-# from .models import Trainer, TrainerWorkout
-# from django.contrib.auth.models import User
 from .models import Exercise, ExerciseItem, Subscription, Trainer,User
 
 
@@ -23,22 +21,22 @@ class TrainerLogin(forms.Form):
 class ExerciseForm(forms.ModelForm):
     class Meta:
         model = Exercise
-        fields = ["name", "short_description", "category", "image","video"]
+        fields = ["name", "short_description", "category", "image", "video"]
 
 
 class ExerciseItemForm(forms.ModelForm):
     class Meta:
         model = ExerciseItem
-        fields = ["exercise", "reps", "sets", "time","date"]
+        fields = ["exercise", "reps", "sets", "time", "date"]
  
    
 class TrainerSubscriptionForm(forms.ModelForm):
     class Meta:
         model = Subscription
-        fields = ["name", "price", "describtion",  "duration"]
+        fields = ["name", "price", "description",  "duration"]
         
 
 class EditTrainerProfileForm(forms.ModelForm):
     class Meta:
         model = Trainer
-        fields = ["age", "experience", "specialty", "image"]
+        fields = ["age", "experience", "specialty", "image", "bio"]
