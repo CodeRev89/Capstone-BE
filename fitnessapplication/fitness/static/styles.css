@@ -130,6 +130,13 @@ a.logo:hover {
     background-color: rgb(40, 39, 103);
 }
 
+/* home page general information cards */
+.home-card {
+    border-radius: 0.5em;
+    background-color: rgb(40, 39, 103); 
+}
+
+
 /* welcome card image */
 .card-image {
     width: 175px;
@@ -195,7 +202,26 @@ a.logo:hover {
     border-color: rgb(40, 39, 103);
 }
 
+.profile-avatar {
+    width: 200px;
+    height: 200px;
+    border: solid rgb(32, 28, 83);
+}
 
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
+}
+
+canvas {
+    color: #fff;
+}
+
+.exercise-image {
+    width: 200px;
+    height: 100px;
+}
 
 /* overriding bootstrap classes */
 .btn-primary {
@@ -217,4 +243,31 @@ a.logo:hover {
 
 .w-60 {
     width: 60%;
+}
+
+
+.form-control {
+    background-color: rgb(73, 72, 144);
+    border: solid rgb(17, 17, 57) 0;
+    color: white;
+}
+
+.form-control:focus {
+    background-color: rgb(59, 58, 121);
+    color: white;
+}
+
+.form-select {
+    background-color: rgb(73, 72, 144);
+    border: solid rgb(17, 17, 57) 0;
+    color: white;
+}
+
+
+.form-file-button-color {
+    color: white;
+}
+
+.border {
+    border: solid rgb(73, 69, 119) 1px !important;
 }

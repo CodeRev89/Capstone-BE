@@ -3,35 +3,168 @@
 {% block content %}
 <!-- start of row 1 -->
 <div class="row">
-    <div class="w-50">
-        <!-- welcome card container -->
-        <div class="bg-card heading-image d-flex justify-content-between">
-            <!-- card text -->
-            <div class="d-flex flex-column px-3">
-                <h1 class="mt-5 fs-1 fw-semibold c-headings">Hello {{request.user.first_name}}!</h1>
-                <p class="mt-3 ch-50">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Doloremque
-                    eveniet iusto
-                    eaque, amet
-                    et facere commodi repellat veniam iure numquam? Quis quaerat odio accusantium et
-                    eveniet.
-                </p>
-            </div>
-            <!-- card image -->
-            <img class="card-image ms-5" src="{% static 'images/waving.png' %}" alt="waving">
+    <!-- welcome card container -->
+    <div class="col-5 bg-card heading-image d-flex justify-content-between">
+        <!-- card text -->
+        <div class="d-flex flex-column px-3">
+            <h1 class="mt-5 fs-1 fw-semibold c-headings">Hello {{request.user.first_name}}!</h1>
+            <p class="mt-3 ch-50">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Doloremque
+                eveniet iusto
+                eaque, amet
+                et facere commodi repellat veniam iure numquam?
+            </p>
         </div>
-        <!-- end of welcome card container -->
+        <!-- card image -->
+        <img class="card-image ms-5" src="{% static 'images/waving.png' %}" alt="waving">
+    </div>
+    <!-- end of welcome card container -->
+    <div class="col bg-card me-5 p-4">
+        <div class="row">
+            <!-- profile heading -->
+            <div class="w-100 d-flex justify-content-between align-items-center mb-3">
+                <h2 class="fs-4">My Profile</h2>
+                <a href="{% url 'edit-trainer-profile' %}">
+                    <i class="fa-solid fa-pen-to-square fs-3 c-headings"></i>
+                </a>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="d-flex align-items-center">
+                <!-- avatar -->
+                <div class="profile-avatar">
+                    {% if trainer.image %}
+                    <img src="{{trainer.image.url}}">
+                    {% else %}
+                    <img src="{% static 'images/profile-image.png' %}">
+                    {% endif %}
+                </div>
+                <!-- profile username -->
+                <div class="w-75 profile-user ms-4">
+                    <!-- full name and username -->
+                    <div class="w-100 mb-4 d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="fs-6 mb-2 sub-p">Full Name:</p>
+                            <p class="mb-2 fs-4 fw-semibold">
+                                {{request.user.first_name}}
+                                {{request.user.last_name}}</p>
+                        </div>
+                        <div>
+                            <p class="fs-6 mb-2 sub-p">Username:</p>
+                            <p class="mb-2 fs-4 fw-semibold">
+                                {{request.user.username}}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="fs-6 mb-2 sub-p">Age: </p>
+                            <p class="mb-2 fs-4 fw-semibold">
+                                {% if trainer.age %}
+                                {{trainer.age}} years old
+                                {% else %}
+                                Empty
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="w-100 d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="fs-6 mb-2 sub-p">Experience: </p>
+                            <p class="mb-2 fs-4 fw-semibold">
+                                {% if trainer.experience %}
+                                {{trainer.experience}} years
+                                {% else %}
+                                Empty
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="fs-6 mb-2 sub-p">Specialty: </p>
+                            <p class="mb-2 fs-4 fw-semibold">
+                                {% if trainer.specialty %}
+                                {{trainer.specialty}}
+                                {% else %}
+                                Empty
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="fs-6 mb-2 sub-p">Ratings: </p>
+                            <p class="mb-2 fs-4 fw-semibold"><i class="fa-solid fa-star fs-5 text-warning"></i><i
+                                    class="fa-solid fa-star fs-5 text-warning"></i><i
+                                    class="fa-solid fa-star fs-5 text-warning"></i><i
+                                    class="fa-solid fa-star fs-5 text-warning"></i><i class="fa-solid fa-star fs-5"></i>
+                                4.65</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- end of row 1 -->
 
-<!-- 
-    ##############################
-      list of users and workouts 
-    ##############################
--->
+
 <!-- start of row 2 -->
 <div class="row">
-
-</div>
-{% endblock content %}
+    <div class="col mx-4 mt-5">
+        <h2 class="mb-3 fs-4">General Information</h2>
+        <hr>
+        <div class="row gap-4">
+            <!-- number of sub plans-->
+            <div class="col p-4 home-card ms-2">
+                <h5 class="fw-semibold mb-3 fs-5">Subscriptions</h5>
+                <hr>
+                <div class="d-flex justify-content-center align-items-center">
+                    {% if subs.count == 0 %}
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <i class="fa-solid fa-circle-exclamation fs-1 mb-4 text-warning"></i>
+                        <p class="ch-50 text-center">You have no plan.</p>
+                        {% else %}
+                        <div class="d-flex flex-column justfity-content-center align-items-center">
+                            <p class="fs-1 fw-bold">{{subs}}</p>
+                            <p class="text-center mt-3">plan(s)</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- how many users are subscribed -->
+                <div class="col p-4 home-card">
+                    <h5 class="fw-semibold mb-3 fs-5">Users Subscribed</h5>
+                    <hr>
+                    <div class="d-flex justify-content-center align-items-center">
+                        {% if users.count == 0 %}
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                            <i class="fa-solid fa-circle-exclamation fs-1 mb-4 text-warning"></i>
+                            <p class="ch-50 text-center">You have no currently active subscribers.</p>
+                        </div>
+                        {% else %}
+                        <div class="w-100 d-flex flex-column justfity-content-center align-items-center">
+                            <p class="fs-1 fw-bold">{{users}}</p>
+                            <p class="text-center mt-3">users currently active</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- total earnings -->
+                <div class="col p-4 home-card">
+                    <h5 class="fw-semibold mb-3 fs-5">Earnings</h5>
+                    <hr>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="fs-1 fw-bold">200 KD</p>
+                    </div>
+                    <p class="text-center mt-3">/month</p>
+                </div>
+                <!-- popularity -->
+                <div class="col p-4 home-card">
+                    <h5 class="fw-semibold mb-3 fs-5">Popularity</h5>
+                    <hr>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="fs-1 fw-bold">94</p>
+                    </div>
+                    <p class="text-center mt-3">out of 100</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}

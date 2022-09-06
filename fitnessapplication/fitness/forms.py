@@ -25,11 +25,11 @@ class ExerciseForm(forms.ModelForm):
 
         def __init__(self, *args, **kwargs):
             super(ExerciseForm, self)
-            self.fields['name'].widget.attrs.update({'class': 'input-group', 'label': self.kwargs["name"]})
-            self.fields['short_description'].widget.attrs.update({'class': 'input-group'})
-            self.fields['category'].widget.attrs.update({'class': 'input-group'})
-            self.fields['image'].widget.attrs.update({'class': 'input-group'})
-            self.fields['video'].widget.attrs.update({'class': 'input-group'})
+            self.fields['name'].widget.attrs.update({'class': 'form-control', 'type': 'text'})
+            self.fields['short_description'].widget.attrs.update({'class': 'form-control'})
+            self.fields['category'].widget.attrs.update({'class': 'form-select'})
+            self.fields['image'].widget.attrs.update({'class': 'form-control', 'type': 'file'})
+            self.fields['video'].widget.attrs.update({'class': 'form-control'})
 
 
 class ExerciseItemForm(forms.ModelForm):

@@ -10,7 +10,7 @@ Subscribtion Plans
 {% block content %}
 <div class="container-fluid p-5 h-100">
   <div class="content-heading d-flex justify-content-between align-items-center">
-    <h1 class="fs-3 fw-bold mb-4 ms-3">Your Subscription Plans</h1>
+    <h1 class="fs-3 fw-bold mb-4">Your Subscription Plans</h1>
     <a href="{% url 'add-subscription' %}" class="btn btn-warning px-4 py-2 mb-4 fw-bold">Add New Plan</a>
   </div>
 
@@ -30,7 +30,7 @@ Subscribtion Plans
           <p class="card-text">{{sub.price}} KD</p>
         </div>
         <!-- Duration -->
-        <div class="d-flex justify-content-between align-items-center mt-4 fs-5 mb-5">
+        <div class="d-flex justify-content-between align-items-center mt-4 fs-5 mb-4">
           <p class="fw-semibold sub-p"><i class="fa-solid fa-clock me-3"></i></i>Duration:</p>
           <p class="card-text">
             {{sub.duration}} days
@@ -38,10 +38,10 @@ Subscribtion Plans
         </div>
         <hr>
         <!-- Description -->
-        <div class="d-flex flex-column justify-content-between mt-4 fs-5 mb-5">
+        <div class="d-flex flex-column justify-content-between mt-4 fs-5 mb-4">
           <p class="fw-semibold sub-p">Description:</p>
-          <p class="card-text mt-3">
-            {{sub.describtion}}
+          <p class="card-text mt-3 ch-50">
+            {{sub.description}}
           </p>
         </div>
 

@@ -1,3 +1,4 @@
+from datetime import time
 from django.shortcuts import render, redirect
 from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
 from .forms import EditTrainerProfileForm, TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm, TrainerSubscriptionForm
@@ -16,7 +17,15 @@ def handler403(request):
 
 
 def home(request):
-    return render(request,'pages/home_page.html')
+    subs = Subscription.objects.filter(trainer_id=request.user.id).all().count()
+    users = SubscriptionItem.objects.filter(plan=request.user.id).all().count()
+    print(subs)
+    print(users)
+    context = {
+        "subs": subs,
+        "users": users,
+    }
+    return render(request,'pages/home_page.html', context)
 
 
 def registration_view(request):
@@ -91,7 +100,7 @@ def trainer_edit_profile(request):
             trainer_user = form.save()
             trainer_user.user = trainer.user
             trainer_user.save()
-            return redirect("trainer-profile")
+            return redirect("home")
     context = {
         "form": form,
     }
@@ -242,8 +251,33 @@ def subscription_delete_view(request):
 def trainee_details(request, trainee_id):
     trainee = Trainee.objects.get(user_id=trainee_id)
     sub_item = SubscriptionItem.objects.get(trainee_id=trainee_id)
+    exercises = ExerciseItem.objects.filter(trainee_id=trainee_id).all()
+    labels = [
+        "done", 
+        "not done",
+        ]
+    
+    data = [
+            exercises.filter(done=True).count(),
+            exercises.filter(done=False).count(),
+            ]
+    
+    # times = [obj.time for obj in exercises]
+    # def sum_of_time(times):
+    #     total = time(00, 00, 00)
+    #     for val in times:
+    #         total.min = total(minutes=val.min)
+    #     print(f"look at me I'm the total: {total}")
+    #     int.parse(total)
+    #     return total
+        
+        
     context = {
         "trainee": trainee,
         "sub": sub_item,
+        "exercises": exercises,
+        "data": data,
+        "labels": labels,
+        # "time": sum_of_time(times),
     }
     return render(request, "pages/trainee_details.html", context)
