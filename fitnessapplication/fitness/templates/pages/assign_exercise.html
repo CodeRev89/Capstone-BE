@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+
 {% load static %}
 {% block title %}
 New Exercise
@@ -22,37 +22,41 @@ New Exercise
 
     .outline-btn {
         color: #645cff;
-        background: white;
+        background: rgb(31, 29, 90);
         border-radius: 5px;
         border: 1px solid #645cff;
     }
 
     .outline-btn:hover {
-        color: white;
+        color: #645cff;
     }
 
     .form-check {
         display: none
     }
 </style>
-<form action="{% url 'assign-exercise' trainee.user.id  %}" method="POST" enctype="multipart/form-data">
+<div class="row">
+    <p class="fs-3 fw-semibold">Assign Exercise For: {{trainee.user.username}}</p>
+</div>
+<div class="row"></div>
+<form action="{% url 'assign-exercise' traineeId=trainee.user.id  %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {% comment %} {{ forms }} {% endcomment %}
-    <div style="width:100%" class="ms-5">
-        <p>{{traine.user.username}}</p>
+    {{ forms }}
+    <div style="width:100%">
         <h4>Exercises</h4>
         {{forms.management_form}}
         <div id='set-form-list'>
+
             {% for form in forms %}
             <div class='set-form'>
-
+                {% for field in form %}
+                <input type="text">{{field.label}}
+                {% endfor %}
             </div>
-
             {% endfor %}
         </div>
         <div id='empty-set-form' class='hidden'>
-            {% comment %} <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button> {%
-            endcomment %}
+            <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button>
             {{forms.empty_form}}
         </div>
         <button id="add-more-set" type="button" class="btn outline-btn mt-2 ">Add Exercise</button>

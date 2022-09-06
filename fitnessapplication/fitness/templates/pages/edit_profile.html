@@ -12,7 +12,7 @@ Edit Profile
     <form action="{% url 'edit-trainer-profile' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <input type="submit" value="Save" class="btn btn-warning py-3 px-5 mt-4">
+        <input type="submit" value="Save" class="btn btn-warning fw-semibold px-5 mt-4">
     </form>
 </div>
 

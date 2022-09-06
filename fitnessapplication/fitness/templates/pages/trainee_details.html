@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load bootstrap5 %}
 {% load static %}
 
@@ -6,99 +7,149 @@
 {{trainee}} Details
 {% endblock title %}
 
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        const ctx = document.getElementById('pieChart');
+        const pieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['done', 'not done',],
+                datasets: [{
+                    labels: 'of labels',
+                    data: [1, 1],
+                    backgroundColor: [
+                        '#6247aa',
+                        'rgb(21, 20, 56)',
+                    ],
+                    borderColor: [
+                        '#6247aa',
+                        'rgb(21, 20, 56)',
+                    ],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: '#fff',
+                            backgroundColor: '#fff',
+                        },
+                    },
+                },
+                layout: {
+                    padding: {
+                        bottom: 30,
+                        left: 40,
+                        right: 40,
+                    }
+                }
+            }
+        });
+        // console.log('{{data}}');
+        // console.log("{{labels|safe}}");
+    });
+
+</script>
+{% endblock scripts %}
+
 
 {% block content %}
 <div class="col bg-content">
     <!-- first row  -->
-    <div class="row">
-        <h1 class="fs-3 mt-5 ms-5">{{trainee.user.first_name}} {{trainee.user.last_name}}</h1>
+    <div class="row w-100">
+        <div class="d-flex justify-content-between align-items-center mt-5">
+            <h1 class="fs-3 ms-5">{{trainee.user.first_name}} {{trainee.user.last_name}}</h1>
+            <a href="{% url 'assign-exercise' traineeId=trainee.user.id %}"
+                class="btn btn-warning py-2 px-4 fw-semibold">Assign Exercise</a>
+        </div>
     </div>
 
     <!-- second row -->
     <div class="row gap-4">
         <!-- profile -->
-        <div class="col-4 h-100 mt-4  p-4">
+        <div class="col-4 h-100 mt-4 p-4">
             <h2 class="mb-3 fs-4">Profile</h2>
             <hr>
 
-            <div class="d-flex flex-column align-items-center">
-                <!-- trainer profile image -->
-                <div class="mb-4">
-                    {% if trainee.image %}
-                    <img class="cover" src="{{trainer.image.url}}">
-                    {% else %}
-                    <img class="cover" src="{% static 'images/profile-image.png' %}">
-                    {% endif %}
+            <div class="d-flex flex-column align-items-center p-4">
+                <!-- top card -->
+                <div class="d-flex w-100">
+                    <!-- image -->
+                    <div class="profile-avatar">
+                        {% if trainee.image %}
+                        <img src="{{trainee.image.url}}">
+                        {% else %}
+                        <img src="{% static 'images/profile-image.png' %}">
+                        {% endif %}
+                    </div>
+                    <!-- column -->
+                    <div class="d-flex flex-column w-60 ms-3 justify-content-evenly">
+                        <!-- username line -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="fs-5" style="color: rgb(72, 79, 145);">Username:</p>
+                            <h3 class="fs-4 fw-bold">
+                                {{trainee.user.username}}
+                            </h3>
+                        </div>
+                        <!-- age line -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="fs-5" style="color: rgb(88, 96, 169);">Age:</p>
+                            <h3 class="fs-5">
+                                {{trainee.age}} years old
+                            </h3>
+                        </div>
+                        <!-- gender line -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="fs-5" style="color: rgb(88, 96, 169);">Gender:</p>
+                            <h3 class="fs-5">
+                                {% if trainee.gender %}
+                                {% if trainee.gender == "Male" %}
+                                <i class="fa-solid fa-mars me-2 fs-6" style="color: rgb(23, 127, 238);"></i>
+                                {{trainee.gender}}
+                                {% elif trainee.gender == "Female" %}
+                                <i class="fa-solid fa-venus me-2 fs-6" style="color: pink;"></i> {{trainee.gender}}
+                                {% endif %}
+                                {% else %}
+                                None
+                                {% endif %}
+                            </h3>
+                        </div>
+                        <!-- blood type line -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="fs-5" style="color: rgb(88, 96, 169);">Age:</p>
+                            <h3 class="fs-5">
+                                {{trainee.blood_type}}
+                            </h3>
+                        </div>
+                    </div>
                 </div>
-                <!-- trainer username -->
-                <p class="mb-2" style="color: rgb(72, 79, 145); letter-spacing: 2px;">username:</p>
-                <h3 class="fs-4 fw-bold">
-                    {{trainee.user.username}}
-                </h3>
-                <!-- trainer details -->
-                <div class="w-75 mt-4 d-flex flex-column py-4 px-5 indigo container-border">
-                    <!-- age -->
-                    <div class="my-2 d-flex justify-content-between align-items-center">
-                        <p class="fw-semibold">Age: </p>
-                        <p>
-                            {% if trainee.age %}
-                            {{trainee.age}} years old
-                            {% else %}
-                            Empty
-                            {% endif %}
-                        </p>
-                    </div>
-                    <hr>
-                    <!-- gender -->
-                    <div class="my-2 d-flex justify-content-between align-items-center">
-                        <p class="fw-semibold">Gender: </p>
-                        <p>
-                            {% if trainee.gender %}
-                            {% if trainee.gender == "Male" %}
-                            <i class="fa-solid fa-mars me-2 fs-6" style="color: blue;"></i> {{trainee.gender}}
-                            {% elif trainee.gender == "Female" %}
-                            <i class="fa-solid fa-venus me-2 fs-6" style="color: pink;"></i> {{trainee.gender}}
-                            {% endif %}
-                            {% else %}
-                            None
-                            {% endif %}
-                        </p>
-                    </div>
-                    <hr>
+
+
+                <div class="mt-5 d-flex flex-column p-4 indigo">
                     <!-- height -->
                     <div class="my-2 d-flex justify-content-between align-items-center">
                         <p class="fw-semibold">Height: </p>
-                        <p>
-                            {{trainee.height}} cm
-                        </p>
+                        <p>{{trainee.height}} cm</p>
                     </div>
                     <hr>
                     <!-- weight -->
                     <div class="my-2 d-flex justify-content-between align-items-center">
                         <p class="fw-semibold">Weight: </p>
-                        <p>
-                            {{trainee.weight}} kg
-                        </p>
+                        <p>{{trainee.weight}} kg</p>
                     </div>
                     <hr>
-                    <!-- blood type -->
-                    <div class="my-2 d-flex justify-content-between align-items-center">
-                        <p class="fw-semibold">Blood Type: </p>
-                        <p>
-                            {{trainee.blood_type}}
-                        </p>
-                    </div>
-                    <hr>
-
+                    <!-- bio -->
                     <div class="my-2">
                         <p class="mb-2 fw-semibold">Bio: </p>
-                        <p>
-                            {{trainee.bio}}
-                        </p>
+                        <p class="ch-50">{{trainee.bio}}</p>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <!-- progress -->
         <div class="col h-100 mt-4 p-4">
@@ -108,23 +159,76 @@
                 <div class="col-12 p-4 indigo">
                     <h5 class="fw-semibold mb-3 fs-5">Assigned Exercises</h5>
                     <hr>
-                    <p>Exercise 1</p>
+                    <!-- exercises  -->
+                    <div class="fs-5 d-flex align-items-center">
+                        {% if exercises.count == 0 %}
+                        <div class="w-100 d-flex flex-column justify-content-center align-items-center">
+                            <i class="fa-solid fa-circle-exclamation fs-1 mb-4 text-warning"></i>
+                            <p class="ch-50 text-center">Have not been assigned anything yet.</p>
+                        </div>
+                        {% else %}
+                        {% for e in exercises.all %}
+                        <div class="border me-3">
+                            <div class="exercise-image">
+                                <img src="{{e.exercise.image.url}}" alt="">
+                            </div>
+                            <p class="ms-3 py-3">{{e.exercise.name}}</p>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
+                <!--  exercises -->
                 <div class="col p-4 indigo">
-                    <h5 class="fw-semibold mb-3 fs-5">Exercises Done</h5>
+                    <h5 class="fw-semibold mb-3 fs-5"><i class="fa-solid fa-calendar-check fs-5 me-3"></i>Exercises
+                        Done</h5>
                     <hr>
-                    <p>4/10 completed</p>
+                    {% if exercises.count == 0 %}
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <i class="fa-solid fa-circle-exclamation fs-1 mb-4 text-warning"></i>
+                        <p class="ch-50 text-center">Have not been assigned anything yet.</p>
+                    </div>
+                    {% else %}
+                    <canvas id="pieChart" width="175px" height="175px"></canvas>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="fs-4 fw-semibold">{{data.0}}/{{exercises.count}} completed</p>
+                    </div>
+                    {% endif %}
                 </div>
+                <!--  time active -->
                 <div class="col p-4 indigo">
-                    <h5 class="fw-semibold mb-3 fs-5">Time Active</h5>
+                    <h5 class="fw-semibold mb-3 fs-5"><i class="fa-solid fa-hourglass-end me-3 fs-5"></i> Time Active
+                    </h5>
                     <hr>
-                    <p>50 minutes</p>
+                    {% if exercises.count == 0 %}
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <i class="fa-solid fa-circle-exclamation fs-1 mb-4 text-warning"></i>
+                        <p class="ch-50 text-center">Have not been assigned anything yet.</p>
+                    </div>
+                    {% else %}
+                    <div class="d-flex flex-column justify-content-center align-items-center h-75">
+                        <p class="fw-bold" style="font-size: 6em;">12{{exercises.exercise.time}}</p>
+                        <p class="fs-3">Minutes</p>
+                    </div>
+                    {% endif %}
                 </div>
+                <!-- calories burnt -->
                 <div class="col p-4 indigo">
-                    <h5 class="fw-semibold mb-3 fs-5">Exercises Done</h5>
+                    <h5 class="fw-semibold mb-3 fs-5"><i class="fa-solid fa-fire me-3 fs-5"></i> Calories Burned</h5>
                     <hr>
-                    <p>4/10 completed</p>
+                    {% if exercises.count == 0 %}
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <i class="fa-solid fa-circle-exclamation fs-1 mb-4 text-warning"></i>
+                        <p class="ch-50 text-center">Have not been assigned anything yet.</p>
+                    </div>
+                    {% else %}
+                    <div class="d-flex flex-column justify-content-center align-items-center h-75">
+                        <p class="fw-bold" style="font-size: 6em;">400</p>
+                        <p class="fs-3">Kcal</p>
+                    </div>
+                    {% endif %}
                 </div>
+
             </div>
         </div>
     </div>

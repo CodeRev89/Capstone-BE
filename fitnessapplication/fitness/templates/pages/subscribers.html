@@ -8,91 +8,91 @@ Subscriptions
 
 
 {% block content %}
-<div class="container-fluid p-5 h-100">
 
-  <div class="row content-heading d-flex justify-content-between align-items-center">
-    <h1 class="col fs-3 fw-bold mb-4 ms-3">Active Users</h1>
 
-  </div>
-  <div class="row">
-    {% for sub in subsItems %}
+<div class="row mx-5 mt-5 mb-4">
+  <h1 class="fs-3 fw-bold">Active Users</h1>
+</div>
 
-    <div class="col user-details">
-      <a href="{% url 'trainee-details' trainee_id=sub.trainee.user.id %}">
-        <div class="card indigo mb-4 w-100 on-hover">
-          <div class="card-body p-5">
-            <div class="d-flex align-items-center mb-3">
-              {% if sub.trainee.image %}
-              <img class="me-3 avatar" src="{{sub.trainee.image.url}}" alt="">
+<div class="row mx-5 gap-3">
+  {% for sub in subsItems %}
+  <div class="col-5" style="padding: 0;">
+    <a href="{% url 'trainee-details' trainee_id=sub.trainee.user.id %}">
+      <div class="card indigo on-hover">
+        <div class="card-body p-5">
+          <div class="d-flex align-items-center mb-3">
+            {% if sub.trainee.image %}
+            <img class="me-3 avatar" src="{{sub.trainee.image.url}}" alt="">
+            {% else %}
+            <img class="me-3 avatar" src="{% static 'images/profile-image.png' %}" alt="">
+            {% endif %}
+            <h5 class="card-title fw-bold fs-3">{{sub.trainee.user.first_name}} {{sub.trainee.user.last_name}}
+            </h5>
+          </div>
+
+          <hr>
+          <!-- trainee -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-user me-3"></i>To Plan:</p>
+            <p class="card-text">{{sub.plan.name}}</p>
+          </div>
+          <!-- start date -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-calendar-days me-3"></i>Starts On:</p>
+            <p class="card-text">{{sub.start_date}}</p>
+          </div>
+          <!-- end date -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-calendar-days me-3"></i>Ends On:</p>
+            <p class="card-text">{{sub.end_date}}</p>
+          </div>
+          <!-- payment -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-money-check me-3"></i>Payment Status:</p>
+            <p class="card-text">
+              {% if sub.payment_status == True %}
+              Paid
               {% else %}
-              <img class="me-3 avatar" src="{% static 'images/profile-image.png' %}" alt="">
+              Not Paid
               {% endif %}
-              <h5 class="card-title fw-bold fs-3">{{sub.trainee.user.first_name}} {{sub.trainee.user.last_name}}
-              </h5>
-            </div>
+            </p>
+          </div>
+          <!-- active -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-gauge-high me-3"></i>Active:</p>
+            <p class="card-text">
+              {% if sub.active == True %}
+              Yes
+              {% else %}
+              No
+              {% endif %}
+            </p>
+          </div>
 
-            <hr>
-            <!-- trainee -->
-            <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
-              <p class="fw-semibold sub-p"><i class="fa-solid fa-user me-3"></i>To Plan:</p>
-              <p class="card-text">{{sub.plan.name}}</p>
-            </div>
-            <!-- start date -->
-            <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
-              <p class="fw-semibold sub-p"><i class="fa-solid fa-calendar-days me-3"></i>Starts On:</p>
-              <p class="card-text">{{sub.start_date}}</p>
-            </div>
-            <!-- end date -->
-            <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
-              <p class="fw-semibold sub-p"><i class="fa-solid fa-calendar-days me-3"></i>Ends On:</p>
-              <p class="card-text">{{sub.end_date}}</p>
-            </div>
-            <!-- payment -->
-            <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
-              <p class="fw-semibold sub-p"><i class="fa-solid fa-money-check me-3"></i>Payment Status:</p>
-              <p class="card-text">
-                {% if sub.payment_status == True %}
-                Paid
-                {% else %}
-                Not Paid
-                {% endif %}
-              </p>
-            </div>
-            <!-- active -->
-            <div class="d-flex justify-content-between align-items-center mt-4 fs-5">
-              <p class="fw-semibold sub-p"><i class="fa-solid fa-gauge-high me-3"></i>Active:</p>
-              <p class="card-text">
-                {% if sub.active == True %}
-                Yes
-                {% else %}
-                No
-                {% endif %}
-              </p>
-            </div>
-
-            <!-- auto renew -->
-            <div class="d-flex justify-content-between align-items-center mt-4 fs-5 ">
-              <p class="fw-semibold sub-p"><i class="fa-solid fa-rotate me-3"></i>Auto Renew:</p>
-              <p class="card-text">
-                {% if sub.active == True %}
-                On
-                {% else %}
-                Off
-                {% endif %}
-              </p>
-            </div>
+          <!-- auto renew -->
+          <div class="d-flex justify-content-between align-items-center mt-4 fs-5 ">
+            <p class="fw-semibold sub-p"><i class="fa-solid fa-rotate me-3"></i>Auto Renew:</p>
+            <p class="card-text">
+              {% if sub.auto_renew == True %}
+              On
+              {% else %}
+              Off
+              {% endif %}
+            </p>
           </div>
         </div>
-      </a>
-    </div>
-    {% empty %}
-    <div class="h-100">
-      <div class="h-100 d-flex flex-column justify-content-center align-items-center">
-        <i class="fa-solid fa-ghost icon-large icon-large-color"></i>
-        <h1 class="fs-3 mt-4">Boo. Nothing to see here.</h1>
       </div>
-
-    </div>
-    {% endfor %}
+    </a>
   </div>
-  {%endblock content %}
+  {% empty %}
+  <div class="h-100">
+    <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+      <i class="fa-solid fa-ghost icon-large icon-large-color"></i>
+      <h1 class="fs-3 mt-4">Boo. Nothing to see here.</h1>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+{%endblock content %}
