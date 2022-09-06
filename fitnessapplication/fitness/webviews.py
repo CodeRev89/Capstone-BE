@@ -190,6 +190,7 @@ def trainer_subs_list(request):
     context = {
         "subs": subs,
     }
+    print(subs)
     return render(request, "pages/trainer_subscriptions.html", context)
 
 
