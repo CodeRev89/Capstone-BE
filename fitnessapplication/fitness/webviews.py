@@ -261,7 +261,7 @@ def subscription_delete_view(request):
 # trainee profile and details 
 def trainee_details(request, trainee_id):
     trainee = Trainee.objects.get(user_id=trainee_id)
-    sub_item = SubscriptionItem.objects.get(trainee_id=trainee_id, plan__trainer = request.user.trainer)
+    sub_item = SubscriptionItem.objects.filter(trainee_id=trainee_id, plan__trainer= request.user.trainer).all()
     exercises = ExerciseItem.objects.filter(trainee_id=trainee_id, date__range = [sub_item.start_date,sub_item.end_date],exercise__trainer =request.user.trainer).all()
     labels = [
         "done", 

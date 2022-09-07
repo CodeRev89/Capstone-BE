@@ -17,36 +17,36 @@
                 labels: ['done', 'not done',],
                 datasets: [{
                     labels: 'of labels',
-                    data: [1, 1],
-                    backgroundColor: [
-                        '#6247aa',
-                        'rgb(21, 20, 56)',
-                    ],
-                    borderColor: [
-                        '#6247aa',
-                        'rgb(21, 20, 56)',
-                    ],
-                    borderWidth: 0,
-                }]
+                    data: {{ data }},
+            backgroundColor: [
+                '#6247aa',
+                'rgb(21, 20, 56)',
+            ],
+            borderColor: [
+                '#6247aa',
+                'rgb(21, 20, 56)',
+            ],
+            borderWidth: 0,
+        }]
             },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        labels: {
-                            fontColor: '#fff',
-                            backgroundColor: '#fff',
-                        },
-                    },
+        options: {
+        plugins: {
+            legend: {
+                display: true,
+                labels: {
+                    fontColor: '#fff',
+                    backgroundColor: '#fff',
                 },
-                layout: {
-                    padding: {
-                        bottom: 30,
-                        left: 40,
-                        right: 40,
-                    }
-                }
+            },
+        },
+        layout: {
+            padding: {
+                bottom: 30,
+                left: 40,
+                right: 40,
             }
+        }
+    }
         });
         // console.log('{{data}}');
         // console.log("{{labels|safe}}");
@@ -123,7 +123,7 @@
                         </div>
                         <!-- blood type line -->
                         <div class="d-flex justify-content-between align-items-center">
-                            <p class="fs-5" style="color: rgb(88, 96, 169);">Age:</p>
+                            <p class="fs-5" style="color: rgb(88, 96, 169);">Blood Type:</p>
                             <h3 class="fs-5">
                                 {{trainee.blood_type}}
                             </h3>
@@ -132,7 +132,7 @@
                 </div>
 
 
-                <div class="mt-5 d-flex flex-column p-4 indigo">
+                <div class="mt-5 d-flex flex-column p-4 indigo w-100">
                     <!-- height -->
                     <div class="my-2 d-flex justify-content-between align-items-center">
                         <p class="fw-semibold">Height: </p>
