@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 # from django.contrib.auth.models import User
-from .models import Category, Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer,User
+from .models import Category, Exercise, ExerciseItem, Rating, Subscription, SubscriptionItem, Trainee, Trainer,User
 
 
 class UserTokenSerializer(TokenObtainPairSerializer):
@@ -79,10 +79,20 @@ class TraineeDetailSerializer(serializers.ModelSerializer):
 
 class TrainerListSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-
+    rating=serializers.SerializerMethodField()
     class Meta:
         model = Trainer
-        fields = ['user','age', 'experience', 'specialty',"image" ]
+        fields = ['user','age', 'experience', 'specialty',"image","rating" ]
+
+    def get_rating(self, obj):
+        ratings = Rating.objects.filter(trainer=obj)
+        rating = 0.0
+        rating_obj = 0.0
+        for rate in ratings:
+            rating=rating+rate.rating
+        if len(ratings)>0:
+            rating_obj = rating/len(ratings)
+        return round(rating_obj,2)
         
 class TrainerSubscriptionListSerializer(serializers.ModelSerializer):
     trainer_name = serializers.SerializerMethodField()
@@ -99,16 +109,27 @@ class TrainerSubscriptionListSerializer(serializers.ModelSerializer):
 class TrainerDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     id = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
     subscription = serializers.SerializerMethodField()
+
 
     class Meta:
         model = Trainer
-        fields = ["id",'user', 'age', 'experience', 'specialty',"image","subscription"]
+        fields = ["id",'user', 'age', 'experience', 'specialty',"image","subscription","rating"]
+
+    def get_rating(self, obj):
+        ratings = Rating.objects.filter(trainer=obj)
+        rating = 0.0
+        rating_obj = 0.0
+        for rate in ratings:
+            rating=rating+rate.rating
+        if len(ratings)>0:
+            rating_obj = rating/len(ratings)
+        return round(rating_obj,2)
 
     def get_id(self, obj):
             return obj.user.id
     def get_subscription(self,obj):
-        print(obj)
         try:
             plan = Subscription.objects.get(trainer = obj)
             plan_obj = TrainerSubscriptionListSerializer(plan).data
@@ -151,4 +172,9 @@ class SubscribeSerilizer(serializers.ModelSerializer):
 class CategorySerilizer(serializers.ModelSerializer):
     class Meta:
         model= Category
+        fields = "__all__"
+
+class RateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Rating
         fields = "__all__"

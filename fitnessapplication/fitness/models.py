@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from numpy import maximum
 
 
 # Create your models here.
@@ -142,6 +143,11 @@ class SubscriptionItem(models.Model):
         return f"{self.plan.trainer.user.first_name} {self.plan.trainer.user.last_name}"
     def get_price(self):
          return self.plan.price
+
+class Rating(models.Model):
+    rating= models.FloatField(default=3.0) 
+    trainer= models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True, related_name="ratings")  
+ 
 
 
 

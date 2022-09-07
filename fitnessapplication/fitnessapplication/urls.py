@@ -62,6 +62,9 @@ urlpatterns = [
     path('categories/',views.CategoryView.as_view(), name ='categories'),
     path('samples/',views.SampleExerciseView.as_view(), name ='samples'),
 
+    #rating
+    path('rating/',views.RateView.as_view(), name ='rating'),
+
     
     ### WEB ###
     path("", web.home, name="home"),
