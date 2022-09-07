@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, date
 from turtle import done
 from django.shortcuts import render, redirect
 from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
@@ -294,16 +294,19 @@ def trainee_details(request, trainee_id):
     #     print(f"look at me I'm the total: {total}")
     #     int.parse(total)
     #     return total
-        
-        
+    if sub_item.start_date > date.today() or sub_item.end_date < date.today():
+        cant_asaing=True
+    else:
+        cant_asaing= False
     context = {
         "trainee": trainee,
         "sub": sub_item,
         "exercises": exercises,
         "data": data,
         "labels": labels,
-        # "time": sum_of_time(times),
+        # "time": sum_of_time(tsimes),
         "time": times,
         "calories": active_calories,
+        "cant_assign":cant_asaing
     }
     return render(request, "pages/trainee_details.html", context)

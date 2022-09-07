@@ -6,7 +6,7 @@ from rest_framework import filters,response,status
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,RetrieveUpdateAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Category, Exercise, SubscriptionItem, Trainee, Trainer, Subscription, ExerciseItem
-from .serializer import CategorySerilizer, ExerciseSerializer, TraineeDetailSerializer, TraineeRegisterSerializer, UserTokenSerializer,ExerciseItemSerializer, TrainerDetailSerializer, TrainerListSerializer, TrainerSubscriptionListSerializer,SubscribeSerilizer
+from .serializer import CategorySerilizer, ExerciseSerializer, RateSerializer, TraineeDetailSerializer, TraineeRegisterSerializer, UserTokenSerializer,ExerciseItemSerializer, TrainerDetailSerializer, TrainerListSerializer, TrainerSubscriptionListSerializer,SubscribeSerilizer
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from .permissions import IsOwner, IsProfileOwner
@@ -210,4 +210,9 @@ class SampleExerciseView(ListAPIView):
                 exercises.append(trainer_exercises.first())
         
         return exercises
+
+class RateView(CreateAPIView):
+    serializer_class=RateSerializer
+    permission_classes = [IsAuthenticated,]
+   
         

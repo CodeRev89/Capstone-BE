@@ -62,8 +62,12 @@
     <div class="row w-100">
         <div class="d-flex justify-content-between align-items-center mt-5">
             <h1 class="fs-3 ms-5">{{trainee.user.first_name}} {{trainee.user.last_name}}</h1>
+            {% if not cant_assign%}
             <a href="{% url 'assign-exercise' traineeId=trainee.user.id %}"
                 class="btn btn-warning py-2 px-4 fw-semibold">Assign Exercise</a>
+                {%else%}
+                <a class="btn btn-warning py-2 px-4 fw-semibold disabled" aria-disabled="true">Assign Exercise</a>
+                {% endif%}
         </div>
     </div>
 
