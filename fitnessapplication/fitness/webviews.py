@@ -1,7 +1,7 @@
 from datetime import datetime, date
 from turtle import done
 from django.shortcuts import render, redirect
-from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
+from .models import Exercise, ExerciseItem, Rating, Subscription, SubscriptionItem, Trainee, Trainer
 from .forms import EditTrainerProfileForm, TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm, TrainerSubscriptionForm
 from django.contrib.auth import login, authenticate,logout
 from django.forms.models import inlineformset_factory
@@ -20,12 +20,21 @@ def handler403(request):
 def home(request):
     subs = Subscription.objects.filter(trainer_id=request.user.id).all().count()
     users = SubscriptionItem.objects.filter(plan=request.user.id).all()
+    ratings = Rating.objects.filter(trainer=request.user.id).all()
+    rating = 0.0
+    rating_obj = 0.0
+    for rate in ratings:
+        rating=rating+rate.rating
+    if len(ratings)>0:
+        rating_obj = rating/len(ratings)
+    
     earnng= 0
     for user in users:
         if user.payment_status:
             earnng = earnng+ user.plan.price 
     context = {
         "subs": subs,
+        "rating":round(rating_obj,2),
         "earnng": earnng,
         "users": users.filter(end_date__gte=datetime.today(),active =True).count(),
     }
