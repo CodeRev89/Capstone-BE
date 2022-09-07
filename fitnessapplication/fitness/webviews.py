@@ -1,4 +1,5 @@
-from datetime import time
+from datetime import datetime, time
+from turtle import done
 from django.shortcuts import render, redirect
 from .models import Exercise, ExerciseItem, Subscription, SubscriptionItem, Trainee, Trainer
 from .forms import EditTrainerProfileForm, TrainerRegister,TrainerLogin,ExerciseForm,ExerciseItemForm, TrainerSubscriptionForm
@@ -18,12 +19,15 @@ def handler403(request):
 
 def home(request):
     subs = Subscription.objects.filter(trainer_id=request.user.id).all().count()
-    users = SubscriptionItem.objects.filter(plan=request.user.id).all().count()
-    print(subs)
-    print(users)
+    users = SubscriptionItem.objects.filter(plan=request.user.id).all()
+    earnng= 0
+    for user in users:
+        if user.payment_status:
+            earnng = earnng+ user.plan.price 
     context = {
         "subs": subs,
-        "users": users,
+        "earnng": earnng,
+        "users": users.filter(end_date__gte=datetime.today(),active =True).count(),
     }
     return render(request,'pages/home_page.html', context)
 
@@ -164,21 +168,28 @@ def delete_exercise(request, slug):
 
 def assign_exercise(request,traineeId):
     trainee = Trainee.objects.get(user__id=traineeId)
-    setsFormset = inlineformset_factory(model= ExerciseItem, parent_model=Trainee, form=ExerciseItemForm,extra=0)
-    forms = setsFormset()    
+    # setsFormset = inlineformset_factory(model= ExerciseItem, parent_model=Trainee, form=ExerciseItemForm,extra=0)
+    forms = ExerciseItemForm()  
+    # for form in forms:
+    forms.fields["exercise"].queryset = Exercise.objects.filter(trainer=request.user.trainer)
+    
     if request.method == "POST":
-        forms = setsFormset(request.POST)
+        forms = ExerciseItemForm(request.POST)
         if forms.is_valid():
-            for form in forms:
-                child = form.save(commit=False)
-                child.trainee = trainee
-                child.save()
+            # for form in forms:
+            child = forms.save(commit=False)
+            child.trainee = trainee
+            child.save()
             return redirect("home")
     context = {
         "forms": forms,
         "trainee":trainee
     }
     return render(request, "pages/assign_exercise.html", context)
+def get_form_kwargs(self):
+    kwargs = super(assign_exercise, self).get_form_kwargs()
+    kwargs['user'] = self.request.user.trainer
+    return kwargs 
 
 
 
@@ -190,7 +201,6 @@ def trainer_subs_list(request):
     context = {
         "subs": subs,
     }
-    print(subs)
     return render(request, "pages/trainer_subscriptions.html", context)
 
 
@@ -251,8 +261,8 @@ def subscription_delete_view(request):
 # trainee profile and details 
 def trainee_details(request, trainee_id):
     trainee = Trainee.objects.get(user_id=trainee_id)
-    sub_item = SubscriptionItem.objects.get(trainee_id=trainee_id)
-    exercises = ExerciseItem.objects.filter(trainee_id=trainee_id).all()
+    sub_item = SubscriptionItem.objects.get(trainee_id=trainee_id, plan__trainer = request.user.trainer)
+    exercises = ExerciseItem.objects.filter(trainee_id=trainee_id, date__range = [sub_item.start_date,sub_item.end_date],exercise__trainer =request.user.trainer).all()
     labels = [
         "done", 
         "not done",
@@ -263,7 +273,20 @@ def trainee_details(request, trainee_id):
             exercises.filter(done=False).count(),
             ]
     
-    # times = [obj.time for obj in exercises]
+    times = 0
+    for obj in exercises:
+        print(obj.time)
+        if obj.done == True:
+            times = times + int(obj.time.strftime("%M"))
+    
+    active_calories = 0
+    for exercise in exercises.filter(done=True):
+        exerciseCalories = 0
+        try:
+            exerciseCalories = int(exercise.time.strftime("%M")) * 3 * 3.5 * trainee.weight/200
+        except:
+            exerciseCalories = 10 * 3 * 3.5 * 70/200
+        active_calories = active_calories + exerciseCalories 
     # def sum_of_time(times):
     #     total = time(00, 00, 00)
     #     for val in times:
@@ -280,5 +303,7 @@ def trainee_details(request, trainee_id):
         "data": data,
         "labels": labels,
         # "time": sum_of_time(times),
+        "time": times,
+        "calories": active_calories,
     }
     return render(request, "pages/trainee_details.html", context)

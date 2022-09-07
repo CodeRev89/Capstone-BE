@@ -1,5 +1,6 @@
 from calendar import monthrange
 from datetime import datetime, date
+from numpy import double
 from rest_framework.views import APIView
 from rest_framework import filters,response,status
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,RetrieveUpdateAPIView
@@ -55,10 +56,11 @@ class MonthlyExerciseListView(ListAPIView):
     serializer_class = ExerciseItemSerializer
     permission_classes = [IsOwner]
     def get_queryset(self):
-        query = self.request.GET
-        month=query["month"]
+        # query = self.request.GET
+        # month=query["month"]
         print(datetime.today().month)
-        return ExerciseItem.objects.filter(trainee=self.request.user.id,date__month=month)
+        # return ExerciseItem.objects.filter(trainee=self.request.user.id,date__month=month)
+        return ExerciseItem.objects.filter(trainee=self.request.user.id)
 
 
 class TrainerListView(ListAPIView):
@@ -96,7 +98,7 @@ class SubscribeView(CreateAPIView):
     permission_classes = [IsAuthenticated,]
     def perform_create(self, serializer):
         query = self.request.GET
-        serializer.save(trainee = self.request.user.trainee )
+        serializer.save(trainee = self.request.user.trainee)
 
 
 class UpdateSubscribeView(RetrieveUpdateAPIView):
@@ -118,7 +120,7 @@ class MyPlansView(ListAPIView):
     serializer_class = SubscribeSerilizer
     permission_classes = [IsOwner,]
     def get_queryset(self):
-        return SubscriptionItem.objects.filter(trainee=str(self.request.user.id))
+        return SubscriptionItem.objects.filter(trainee=str(self.request.user.id),active=True)
     
 
 class TraineePerformance(APIView):

@@ -36,6 +36,14 @@ class ExerciseItemForm(forms.ModelForm):
     class Meta:
         model = ExerciseItem
         fields = ["exercise", "reps", "sets", "time", "date"]
+    # def __init__ (self, *args, **kwargs):
+    #     #instanciate the region variable that you inserted into kwargs
+    #     # trainer = kwargs.pop('trainer')
+    #     user = kwargs.pop('user', None)
+    #     super(ExerciseItemForm, self).__init__(*args, **kwargs)
+    #     # self.fields["candidates"].widget = forms.widgets.CheckboxSelectMultiple()
+    #     self.fields["exercise"].queryset = Exercise.objects.filter(trainer=self.trainer)
+        
  
    
 class TrainerSubscriptionForm(forms.ModelForm):

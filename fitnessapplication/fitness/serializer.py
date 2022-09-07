@@ -21,7 +21,7 @@ class TraineeRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username", "password", "first_name", "last_name", "refresh", "access"]
+        fields = ["id","username", "password", "first_name", "last_name", "refresh", "access"]
 
     def create(self, validated_data):
         new_user = User(**validated_data)
@@ -70,6 +70,12 @@ class TraineeDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trainee
         fields = "__all__"
+    def update(self, instance, validated_data):
+        user = User.objects.get(id=instance.user.id)
+        user.first_name= self.context['request'].data['first_name']
+        user.last_name= self.context['request'].data['last_name']
+        user.save()
+        return super().update(instance, validated_data)
 
 class TrainerListSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -83,7 +89,7 @@ class TrainerSubscriptionListSerializer(serializers.ModelSerializer):
     id = serializers.SerializerMethodField()
     class Meta:
         model = Subscription
-        fields = ["id",'name', 'price', 'describtion', 'trainer','duration',"trainer_name",]
+        fields = ["id",'name', 'price', 'description', 'trainer','duration',"trainer_name",]
 
     def get_trainer_name(self, obj):
         return str(obj.get_trainer_name())
@@ -102,6 +108,7 @@ class TrainerDetailSerializer(serializers.ModelSerializer):
     def get_id(self, obj):
             return obj.user.id
     def get_subscription(self,obj):
+        print(obj)
         try:
             plan = Subscription.objects.get(trainer = obj)
             plan_obj = TrainerSubscriptionListSerializer(plan).data
@@ -125,7 +132,7 @@ class ExerciseItemSerializer(serializers.ModelSerializer):
     time= serializers.SerializerMethodField()
     class Meta:
         model= ExerciseItem
-        fields = ['trainee', 'exercise', 'reps', 'sets', 'time', 'done',"date"]
+        fields = ['id','trainee', 'exercise', 'reps', 'sets', 'time', 'done',"date"]
     
     def get_time(self,obj):
         return str(obj.get_time())

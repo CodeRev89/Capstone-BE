@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load bootstrap5 %}
 
 {% load static %}
 {% block title %}
@@ -12,8 +13,7 @@ New Exercise
     }
 
     .step-form {
-        border-bottom: 1px solid #c4c4c4;
-        margin-bottom: 15px
+        width:400px;
     }
 
     .hidden {
@@ -39,32 +39,30 @@ New Exercise
     <p class="fs-3 fw-semibold">Assign Exercise For: {{trainee.user.username}}</p>
 </div>
 <div class="row"></div>
-<form action="{% url 'assign-exercise' traineeId=trainee.user.id  %}" method="POST" enctype="multipart/form-data">
+<form class=' bg-card p-5 step-form' action="{% url 'assign-exercise' traineeId=trainee.user.id  %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ forms }}
-    <div style="width:100%">
+    {%bootstrap_form forms%}
+    {% comment %} <div style="width:100%">
         <h4>Exercises</h4>
-        {{forms.management_form}}
-        <div id='set-form-list'>
+        {{forms.management_form}} .
+        <div id='set-form-list' class='d-flex flex-wrap'>
 
             {% for form in forms %}
             <div class='set-form'>
-                {% for field in form %}
-                <input type="text">{{field.label}}
-                {% endfor %}
+               
             </div>
             {% endfor %}
-        </div>
-        <div id='empty-set-form' class='hidden'>
-            <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button>
-            {{forms.empty_form}}
-        </div>
-        <button id="add-more-set" type="button" class="btn outline-btn mt-2 ">Add Exercise</button>
-    </div>
-    <input type="submit" value="Add">
+            </div>
+            <div id='empty-set-form' class='hidden'>
+                <button id="delete-set" type="button" class="btn outline-btn mt-2 detele ">X</button>
+                {% bootstrap_form forms.empty_form%}
+            </div>
+            <button id="add-more-set" type="button" class="btn outline-btn mt-2 ">Add Exercise</button>
+        </div> {% endcomment %}
+    <input type="submit" value="Add" class="btn btn-warning py-3 px-5 mt-4">
 </form>
 <br>
-<script>
+{% comment %} <script>
     const addMoreSetBtn = document.getElementById('add-more-set')
     const totalNewSetsForms = document.getElementById('id_exercises-TOTAL_FORMS')
     let ingredient_counter = 1
@@ -75,7 +73,7 @@ New Exercise
         const currentFormCount = currentSetForms.length // + 1
         const formCopyTarget = document.getElementById('set-form-list')
         const copyEmptyFormEl = document.getElementById('empty-set-form').cloneNode(true)
-        copyEmptyFormEl.setAttribute('class', 'set-form card p-3')
+        copyEmptyFormEl.setAttribute('class', ' bg-card p-5 step-form')
         copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
 
 
@@ -90,7 +88,7 @@ New Exercise
         totalNewSetsForms.setAttribute('value', currentFormCount + 1)
         // now add new empty form element to our html form
         formCopyTarget.append(copyEmptyFormEl)
-    }
+    } {% endcomment %}
 
 
 
